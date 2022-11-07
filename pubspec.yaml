@@ -61,13 +61,16 @@ dev_dependencies:
   flutter_launcher_icons: ^0.10.0
 
 flutter_icons:
-  image_path: "assets/icon.png"
+  image_path_android: "assets/balaji_cat_icon.png"
+  image_path_ios: "assets/balaji_cat_icon.png"
+
   android : true
+  ios: true
 
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/icon.png
+  image: assets/balaji_cat_icon.png
   android: true
 
   # The "flutter_lints" package below contains a set of recommended lints to

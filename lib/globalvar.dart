@@ -12,6 +12,7 @@ var pgtitle = "Home";
 var landingpg;
 var alreadyimgcount = 0;
 
+
 var desc, price;
 List img = [];
 List categories = [];

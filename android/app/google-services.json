@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "976658374173",
-    "project_id": "catalogue-399a5",
-    "storage_bucket": "catalogue-399a5.appspot.com"
+    "project_number": "344831948206",
+    "firebase_url": "https://sbe-cat-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "sbe-cat",
+    "storage_bucket": "sbe-cat.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:976658374173:android:7fbef65a5d709019d770f4",
+        "mobilesdk_app_id": "1:344831948206:android:a6f36d9faa3c07c7c0c43f",
         "android_client_info": {
           "package_name": "com.sbe.catalogue"
         }
       },
       "oauth_client": [
         {
-          "client_id": "976658374173-libmk5pb0opimfrvq1nfjcdmuhnlsdsg.apps.googleusercontent.com",
+          "client_id": "344831948206-q0psh8mehg3ssro1mlcnde21biukt756.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCiroNBctnsgAqMEGZcl7BUG5XZRNBLCFE"
+          "current_key": "AIzaSyAbhWAgGVC6qDbkBN-H_KQHxb3h53JP0fw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "976658374173-libmk5pb0opimfrvq1nfjcdmuhnlsdsg.apps.googleusercontent.com",
+              "client_id": "344831948206-q0psh8mehg3ssro1mlcnde21biukt756.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

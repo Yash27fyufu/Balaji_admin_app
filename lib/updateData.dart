@@ -102,17 +102,11 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                         ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100,
-                                    40) // put the width and height you want
-                                ),
-                            child: Wrap(children: <Widget>[
-                              //place Icon here
-
-                              const Text(
-                                "Camera",
-                                textAlign: TextAlign.center,
-                              ),
-                            ]),
+                                fixedSize: Size(100, 40)),
+                            child: const Text(
+                              "Camera",
+                              textAlign: TextAlign.center,
+                            ),
                             onPressed: () => uploadImage(0)),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -125,8 +119,6 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                       ],
                     ),
                     Container(
-                      // if image list is empty it must not give an error, for now it is showing invalid arguments
-
                       padding: EdgeInsets.all(10),
                       height: MediaQuery.of(context).size.height / 7,
                       width: double.infinity,
@@ -136,10 +128,10 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                           itemCount: pickedimgList.length,
                           itemBuilder: (BuildContext ctx, int indx) {
                             return pickedimgList.isEmpty
-                                ? Container()
-
-                                // display no images message
-
+                                ? Container(
+                                    child: const Text("No Image",
+                                        textAlign: TextAlign.right),
+                                  )
                                 : Stack(
                                     alignment: Alignment.topRight,
                                     children: [
@@ -171,24 +163,6 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                                               padding: EdgeInsets.fromLTRB(
                                                   30, 0, 0, 30),
                                               onPressed: () {
-                                                // setState(() {
-
-                                                //   if (indx < alreadyimgcount) {
-                                                //    //delete the already uploaded file the url is saved in "pickedimglist, uplimg and temp[2]"
-                                                //     alreadyimgcount--;
-                                                //   }
-
-                                                //   else {
-                                                //     FirebaseStorage.instance
-                                                //         .refFromURL(files[indx])
-                                                //         .delete();
-                                                //     files.removeAt(indx);
-                                                //   }
-
-                                                //   pickedimgList.removeAt(indx);
-                                                //   uplimg.removeAt(indx);
-                                                // });
-
                                                 setState(() {
                                                   {
                                                     if (indx <
@@ -247,16 +221,8 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                             RegExp("[0-9a-zA-Z\n\s ]")),
                       ],
                       enabled: toenable,
-                      // validator: (value) {
-                      //   if (value!.isNotEmpty) {
-                      //     return null;
-                      //   } else {
-                      //     return "This field is mandatory";
-                      //   }
-                      // },
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
-
                       controller: updatepriceController,
                       decoration: const InputDecoration(
                           label:
@@ -272,13 +238,6 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                             RegExp("[0-9a-zA-Z\n\s ]")),
                       ],
                       enabled: toenable,
-                      // validator: (value) {
-                      //   if (value!.isNotEmpty) {
-                      //     return null;
-                      //   } else {
-                      //     return "This field is mandatory";
-                      //   }
-                      // },
                       keyboardType: TextInputType.multiline,
                       controller: updatedescriptionController,
                       decoration: const InputDecoration(
@@ -291,11 +250,6 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                     ),
                     OutlinedButton(
                       onPressed: () {
-                        // if (!isChecked) {
-                        // } else if (!formkey.currentState!.validate()) {
-                        //   return;
-                        // }
-
                         if (updatecategoriesController.text.isEmpty) {
                           return;
                         } else {

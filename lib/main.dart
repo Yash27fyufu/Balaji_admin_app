@@ -1,5 +1,3 @@
-import 'package:sbe/globalvar.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'mainpage.dart';
@@ -15,31 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var needupdate = false;
-    // check for update in the firebasedatabase
-
-    vehicleStream = database.child("Update").onValue.listen((event) {
-      dynamic data = event.snapshot.value;
-      // if current app version matches the updates one in realtime database
-      if (data == "1.0") {
-        needupdate = false;
-      }
-
-      //show dialog box to update the app from playstore
-
-      // use the update url provided in firebase rtdb
-      else {
-        needupdate = true;
-      }
-    });
-
+  
     return MaterialApp(
         title: 'Home',
         theme: ThemeData(
           fontFamily: "OpenSans",
           primarySwatch: Colors.amber,
         ),
-        home: Home(title: "Home"));
+      home: Home(title: "Home"));
   }
 }
 

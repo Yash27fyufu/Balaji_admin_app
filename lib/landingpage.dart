@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:sbe/showFullImage.dart';
+import 'showFullImage.dart';
 
 import 'globalvar.dart';
 
@@ -20,7 +20,6 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     img.clear();
     {
@@ -61,14 +60,6 @@ class _LandingPageState extends State<LandingPage> {
     desc =
         categories[0]["desc"] == null ? "" : categories[0]["desc"].toString();
 
-    // this section splits image urls from categories[0]["images"] and appends in the list img
-
-    // price =
-    //     "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
-    // desc = "qqqqqqqqqqqqqqqqqqqqq\n\n\n\n\qqqqqqqq ";
-    // img = [
-    //   "https://firebasestorage.googleapis.com/v0/b/vehicle-8c2b1.appspot.com/o/MainPage%2Fstar%2Fdatauser0com.example.anythingcachescaled_image_picker4762345049938705367.jpg?alt=media&token=ac262309-1538-4ce5-abef-1a6e59865105"
-    // ];lib/landingpage2.dart
     return Scaffold(
       body: SizedBox(
         child: SingleChildScrollView(
@@ -87,9 +78,7 @@ class _LandingPageState extends State<LandingPage> {
                           aspectRatio: 16 / 9,
                           autoPlay: true,
                           autoPlayCurve: Curves.fastOutSlowIn,
-                          enableInfiniteScroll: img.length == 1
-                              ? false
-                              : true, // hjghbhjbjkhbbbbbbbbbbbbbbbbbbbbbbbbb see here
+                          enableInfiniteScroll: img.length == 1 ? false : true,
                           autoPlayAnimationDuration:
                               Duration(milliseconds: 800),
                           viewportFraction: 0.8,
@@ -116,37 +105,6 @@ class _LandingPageState extends State<LandingPage> {
                             ),
                           ),
                         );
-                        //  GestureDetector(
-                        //   onDoubleTapDown: (details) =>
-                        //       tapDownDetails = details,
-                        //   onDoubleTap: () {
-                        //     final position = tapDownDetails!.localPosition;
-                        //     final double scale = 3;
-                        //     final x = -position.dx * (scale - 1);
-                        //     final y = -position.dy * (scale - 1);
-
-                        //     final zoomed = Matrix4.identity()
-                        //       ..translate(x, y)
-                        //       ..scale(scale);
-                        //     final value = controller.value.isIdentity()
-                        //         ? zoomed
-                        //         : Matrix4.identity();
-                        //     controller.value = value;
-                        //   },
-                        //   child: InteractiveViewer(
-                        //     transformationController: controller,
-                        //     child: Container(
-                        //       margin: EdgeInsets.all(5.0),
-                        //       decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(10.0),
-                        //         image: DecorationImage(
-                        //           fit: BoxFit.cover,
-                        //           image: NetworkImage(img[index]),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // );
                       }),
                 ),
                 Container(
@@ -224,8 +182,4 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  @override
-  void deactivate() {
-    super.deactivate();
-  }
 }

@@ -1,12 +1,8 @@
-// ignore_for_file: dead_code
-
 import 'dart:async';
 
-//import 'package:sbe/screens/ui.dart';
-
-import 'package:sbe/aboutPage.dart';
-import 'package:sbe/globalvar.dart';
-import 'package:sbe/tnc.dart';
+import 'aboutPage.dart';
+import 'globalvar.dart';
+import 'tnc.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,32 +27,10 @@ class _MainPageState extends State<Home> {
   bool isSelected = true;
   @override
   void initState() {
-    // TODO: implement initStated
     super.initState();
     categories.clear();
     img.clear();
     activateListeners(pathxy);
-
-    // String url =
-    //     "https://vehicle-8c2b1-default-rtdb.firebaseio.com/Home/pricelist .json";
-
-    // http.get(Uri.parse(url)).then((resp) {
-    //   database.child("Home/prices").set(json.decode(resp.body));
-    //   database.child("Home/pricelist ").remove();
-    // });
-
-    // database.child(pathxy).child("2w").child("a").set({
-    //   "name": "abc",
-    //   "image":
-    //       "https://cdn.pixabay.com/photo/2022/05/03/04/34/marseille-7170837_960_720.jpg",
-    //   "lp": "yes",
-    //   "desc": "descriptionController",
-    //   "price": "100"
-    // });
-
-    //   var _timer = new Timer(const Duration(milliseconds: 4000), () {
-
-    // });
   }
 
   @override
@@ -79,11 +53,6 @@ class _MainPageState extends State<Home> {
                     color: Colors.amber,
                   ),
                   child: Wrap(children: [
-                    // IconButton(
-                    //     onPressed: () {
-                    //       gotolastpage(context);
-                    //     },
-                    //     icon: Icon(Icons.arrow_back)),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -191,31 +160,19 @@ class _MainPageState extends State<Home> {
                         }
                       },
                       child: isSelected
-                          ?
-
-                          //                CupertinoSwitch(
-                          //   value: !isSelected,
-
-                          //   onChanged: (value) {
-                          //     setState(() {
-                          //       isSelected = value;
-                          //     });
-                          //   },
-
-                          // )
-
-                          // use a switch here in ui along with the text to understand the mode (edit or view)
-
-                          const Text(
+                          ? const Text(
                               "Edit is off",
                               style: TextStyle(
                                   color: Color.fromARGB(255, 203, 19, 19),
-                                  fontSize: 20),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             )
                           : const Text(
                               "Edit is on",
-                              style:
-                                  TextStyle(color: Colors.green, fontSize: 20),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
                             ),
                     ),
             ),
@@ -227,16 +184,8 @@ class _MainPageState extends State<Home> {
           ),
         ),
         body: categories.isEmpty
-
-            ///if Landing page call another activity to diplay things accordingly
-            ///
-            ///
-
-            ?
-            //const Center(child: CircularProgressIndicator())
-            Align(
-                alignment: Alignment
-                    .center, // Align however you like (i.e .centerRight, centerLeft)
+            ? Align(
+                alignment: Alignment.center,
                 child: Text(
                   "No Data Found",
                   style: TextStyle(color: Colors.black, fontSize: 20),
@@ -268,7 +217,6 @@ class _MainPageState extends State<Home> {
 
   @override
   void deactivate() {
-    // TODO: implement deactivate
     super.deactivate();
   }
 
@@ -289,17 +237,8 @@ class _MainPageState extends State<Home> {
               temp.add(k);
             }
             if (event.snapshot.child(k).child("images").value == "[]") {
-              print("hey");
-              img.add(
-                  "https://media.istockphoto.com/vectors/black-linear-photo-camera-like-no-image-available-vector-id1055079680?k=20&m=1055079680&s=612x612&w=0&h=ujFxkvnp-VclErGByAsr2RYLJObedAtK7NNLgNJY_8A=");
+              img.add(noimglink);
             } else {
-              print(event.snapshot
-                  .child(k)
-                  .child("images")
-                  .value
-                  .toString()
-                  .indexOf(","));
-
               img.add(event.snapshot
                   .child(k)
                   .child("images")
@@ -328,8 +267,6 @@ class _MainPageState extends State<Home> {
                               .toString()
                               .indexOf(",")));
             }
-
-            //here also get one of the images associated with each category to display in grid widget
           }
         });
         bool isSwapped = false;
@@ -342,8 +279,6 @@ class _MainPageState extends State<Home> {
               temp[i] = tr;
               isSwapped = true;
               //sort the images along with the category names
-              print(i);
-              print(img);
               String imgtr = img[i + 1];
               img[i + 1] = img[i];
               img[i] = imgtr;

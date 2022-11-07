@@ -29,7 +29,6 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -38,13 +37,11 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
 
-    // TODO: implement dispose
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // TODO: implement didChangeAppLifecycleState
     super.didChangeAppLifecycleState(state);
 
     final isremoved_from_bg = state == AppLifecycleState.detached;
@@ -298,10 +295,6 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
     final _imagePicker = ImagePicker();
     PickedFile image;
 
-// sometimes even if the quality is more the actual quality is less than the one obtained from less quality function i.e. - it is confusing
-// but this method is very quick and saves a lot of trouble
-// so gotta do some research for the value
-
     if (camnum == 0) {
       image = (await _imagePicker.getImage(
           source: ImageSource.camera, imageQuality: 40))!;
@@ -324,15 +317,13 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
 
       ref.putFile(file).then((TaskSnapshot taskSnapshot) {
         if (taskSnapshot.state == TaskState.success) {
-          print("Image uploaded Successful");
-          // Get Image URL Now
+
+          // Get Image URL
           taskSnapshot.ref.getDownloadURL().then((imageURL) {
             files.add(imageURL);
             setState(() {});
 
-            {
-              print("Image Download URL is $imageURL");
-            }
+            
           });
         } else if (taskSnapshot.state == TaskState.running) {
           // Show Prgress indicator

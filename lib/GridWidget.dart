@@ -22,11 +22,11 @@ class GridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 1,
       ),
-      padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+      padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
       itemCount: length,
       itemBuilder: (context, idx) {
         return InkWell(
@@ -62,7 +62,7 @@ class GridWidget extends StatelessWidget {
                       img[idx].toString().trim(),
                       height: 150,
                       width: double.infinity,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                 ),
@@ -72,10 +72,10 @@ class GridWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.only(left: 5),
                           child: Text(
                             text[idx].toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 15),
@@ -86,7 +86,7 @@ class GridWidget extends StatelessWidget {
                       ),
                       IconButton(
                         iconSize: 22,
-                        icon: Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
                         color: Colors.red,
                         onPressed: () {
                           showDialog(
@@ -95,13 +95,13 @@ class GridWidget extends StatelessWidget {
                                 return AlertDialog(
                                   title: Text("Delete ${text[idx]}"),
                                   content:
-                                      Text("Are you sure you want to delete?"),
+                                      const Text("Are you sure you want to delete?"),
                                   actions: [
                                     RawMaterialButton(
                                       onPressed: () {
                                         gotolastpage(context);
                                       },
-                                      child: Text("No"),
+                                      child: const Text("No"),
                                     ),
                                     RawMaterialButton(
                                         onPressed: () {
@@ -120,7 +120,7 @@ class GridWidget extends StatelessWidget {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
                                         },
-                                        child: Text("Yes "))
+                                        child: const Text("Yes "))
                                   ],
                                 );
                               });

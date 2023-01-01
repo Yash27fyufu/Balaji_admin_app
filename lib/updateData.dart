@@ -51,7 +51,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            title: Text("Update Data"),
+            title: const Text("Update Data"),
           ),
           body: SafeArea(
               child: Form(
@@ -90,7 +90,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                           label: Text("Categories/Models"),
                           border: OutlineInputBorder()),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
@@ -102,7 +102,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                         ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100, 40)),
+                                fixedSize: const Size(100, 40)),
                             child: const Text(
                               "Camera",
                               textAlign: TextAlign.center,
@@ -110,7 +110,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                             onPressed: () => uploadImage(0)),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100,
+                                fixedSize: const Size(100,
                                     40) // put the width and height you want
                                 ),
                             child: const Text("Gallery",
@@ -119,7 +119,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       height: MediaQuery.of(context).size.height / 7,
                       width: double.infinity,
                       child: ListView.builder(
@@ -128,10 +128,8 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                           itemCount: pickedimgList.length,
                           itemBuilder: (BuildContext ctx, int indx) {
                             return pickedimgList.isEmpty
-                                ? Container(
-                                    child: const Text("No Image",
-                                        textAlign: TextAlign.right),
-                                  )
+                                ? const Text("No Image",
+                                    textAlign: TextAlign.center)
                                 : Stack(
                                     alignment: Alignment.topRight,
                                     children: [
@@ -160,7 +158,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                                         Align(
                                           alignment: Alignment.topRight,
                                           child: IconButton(
-                                              padding: EdgeInsets.fromLTRB(
+                                              padding: const EdgeInsets.fromLTRB(
                                                   30, 0, 0, 30),
                                               onPressed: () {
                                                 setState(() {
@@ -180,7 +178,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                                                   }
                                                 });
                                               },
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons.cancel,
                                                 color: Colors.red,
                                                 size: 20,
@@ -278,7 +276,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
     pp = updatecategoriesController.text.toString().trim().toString();
 
     if (pp.toString().isEmpty) {
-      final snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Enter category name first'),
         duration: Duration(milliseconds: 500),
       );
@@ -338,7 +336,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
   void updatedata() async {
     if (alreadyimgcount + files.length != pickedimgList.length) {
-      final snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Wait for images to upload'),
         duration: Duration(milliseconds: 500),
       );
@@ -384,7 +382,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
     var temppath = pathxy;
 
-    Future.delayed(Duration(milliseconds: 5000), () {
+    Future.delayed(const Duration(milliseconds: 5000), () {
       if (temppath.substring(temppath.lastIndexOf("/") + 1) != pp) {
         // if the category name is new then delete the old one after copying else just assign the values
         database.child(temppath).remove();
@@ -396,7 +394,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
     updatepriceController.clear();
 
     final snackBar = SnackBar(
-      content: Text('Updated Data'),
+      content: const Text('Updated Data'),
       duration: new Duration(milliseconds: 500),
     );
 

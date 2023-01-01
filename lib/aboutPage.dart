@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'feedback.dart';
 import 'globalvar.dart';
 import 'showFullImage.dart';
@@ -41,9 +42,8 @@ class _AboutPageState extends State<AboutPage> {
 
     _markers.addLabelMarker(LabelMarker(
         label: "Click me to find the route",
-        
-        markerId: MarkerId("1"),
-        position: LatLng(13.089846455861958, 80.28667655856152)));
+        markerId: const MarkerId("1"),
+        position: const LatLng(13.089846455861958, 80.28667655856152)));
 
     img.clear();
     phonenumbers.clear();
@@ -84,7 +84,7 @@ class _AboutPageState extends State<AboutPage> {
                         "SHRI BALAJI ENTERPRISES",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -93,12 +93,12 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                     ),
                   ]),
-                  margin: EdgeInsets.all(0.0),
-                  padding: EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.all(10.0),
                 ),
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   'Home',
                   style: TextStyle(
                       color: Colors.black,
@@ -119,7 +119,7 @@ class _AboutPageState extends State<AboutPage> {
               ),
               ListTile(
                 tileColor: Colors.grey[350],
-                title: Text(
+                title: const Text(
                   'About Us',
                   style: TextStyle(
                       color: Colors.black,
@@ -129,7 +129,7 @@ class _AboutPageState extends State<AboutPage> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => AboutPage()),
+                    MaterialPageRoute(builder: (context) => const AboutPage()),
                   );
                 },
               ),
@@ -137,7 +137,7 @@ class _AboutPageState extends State<AboutPage> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Terms of Use",
                   style: TextStyle(
                       color: Colors.black,
@@ -147,12 +147,12 @@ class _AboutPageState extends State<AboutPage> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Tnc()),
+                    MaterialPageRoute(builder: (context) => const Tnc()),
                   );
                 },
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Contact Developer",
                   style: TextStyle(
                       color: Colors.black,
@@ -162,14 +162,14 @@ class _AboutPageState extends State<AboutPage> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => FeedbackPage()),
+                    MaterialPageRoute(builder: (context) => const FeedbackPage()),
                   );
                 },
               ),
             ],
           ),
         ),
-        appBar: AppBar(title: Text("About Us ")),
+        appBar: AppBar(title: const Text("About Us ")),
         body: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -180,7 +180,7 @@ class _AboutPageState extends State<AboutPage> {
                     'A2Z PLUMBING SOLUTIONS',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -206,7 +206,7 @@ class _AboutPageState extends State<AboutPage> {
                                 enableInfiniteScroll:
                                     img.length == 1 ? false : true,
                                 autoPlayAnimationDuration:
-                                    Duration(milliseconds: 800),
+                                    const Duration(milliseconds: 800),
                                 viewportFraction: 0.8,
                                 onPageChanged: (index, reason) {
                                   setState(() => activeIndex = index);
@@ -219,7 +219,7 @@ class _AboutPageState extends State<AboutPage> {
                                               url: img[index],
                                             ))),
                                 child: Container(
-                                  margin: EdgeInsets.all(5.0),
+                                  margin: const EdgeInsets.all(5.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.0),
                                     image: DecorationImage(
@@ -242,7 +242,7 @@ class _AboutPageState extends State<AboutPage> {
                               abtpgdetails[4].toString(),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -253,26 +253,39 @@ class _AboutPageState extends State<AboutPage> {
                               abtpgdetails[0].toString(),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            Text(
-                              "${abtpgdetails[1].toString()}",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                            Container(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.only(
+                                    left: 10, top: 10, bottom: 10),
+                                scrollDirection: Axis.horizontal,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    sendmail();
+                                  },
+                                  child: Text(
+                                    abtpgdetails[1],
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.openSans(
+                                      textStyle: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                             ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
@@ -284,7 +297,7 @@ class _AboutPageState extends State<AboutPage> {
                                     phonenumbers[index],
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -299,7 +312,7 @@ class _AboutPageState extends State<AboutPage> {
                         ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   color: Colors.blueGrey[700],
                   height: MediaQuery.of(context).size.height * 1 / 2 - 50,
                   width: MediaQuery.of(context).size.width,
@@ -319,7 +332,7 @@ class _AboutPageState extends State<AboutPage> {
                       Container(
                           alignment: Alignment.topRight,
                           child: FloatingActionButton(
-                            child: Icon(
+                            child: const Icon(
                               Icons.center_focus_strong,
                               size: 30,
                             ),
@@ -337,6 +350,19 @@ class _AboutPageState extends State<AboutPage> {
         ),
       ),
     );
+  }
+
+  sendmail() async {
+    String email = Uri.encodeComponent(abtpgdetails[1]);
+    String subject = Uri.encodeComponent("Provide Contact Developer - Reg.");
+    String body = "I would like to contact you ";
+
+    Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
+    if (await launchUrl(mail)) {
+      //email app opened
+    } else {
+      //email app is not opened
+    }
   }
 
   void getabtpgdetails() {

@@ -51,7 +51,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           'SHRI BALAJI ENTERPRISES',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -60,12 +60,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         ),
                       ),
                     ]),
-                    margin: EdgeInsets.all(0.0),
-                    padding: EdgeInsets.all(10.0),
+                    margin: const EdgeInsets.all(0.0),
+                    padding: const EdgeInsets.all(10.0),
                   ),
                 ),
                 ListTile(
-                  title: Text(
+                  title: const Text(
                     'Home',
                     style: TextStyle(
                         color: Colors.black,
@@ -85,7 +85,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   },
                 ),
                 ListTile(
-                  title: Text(
+                  title: const Text(
                     'About Us',
                     style: TextStyle(
                         color: Colors.black,
@@ -95,7 +95,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => AboutPage()),
+                      MaterialPageRoute(builder: (context) => const AboutPage()),
                     );
                   },
                 ),
@@ -103,7 +103,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   height: MediaQuery.of(context).size.height - 350,
                 ),
                 ListTile(
-                  title: Text(
+                  title: const Text(
                     "Terms of Use",
                     style: TextStyle(
                         color: Colors.black,
@@ -113,13 +113,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => Tnc()),
+                      MaterialPageRoute(builder: (context) => const Tnc()),
                     );
                   },
                 ),
                 ListTile(
                   tileColor: Colors.grey[350],
-                  title: Text(
+                  title: const Text(
                     "Contact Developer",
                     style: TextStyle(
                         color: Colors.black,
@@ -129,7 +129,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => FeedbackPage()),
+                      MaterialPageRoute(builder: (context) => const FeedbackPage()),
                     );
                   },
                 ),
@@ -137,7 +137,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
             ),
           ),
           appBar: AppBar(
-            title: Text(
+            title: const Text(
               "Contact Developer",
               style: TextStyle(
                   color: Colors.black,
@@ -151,7 +151,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   color: Colors.white,
                   child: Container(
                     alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(top: 25),
+                    padding: const EdgeInsets.only(top: 25),
                     child: Column(
                       children: [
                         Padding(
@@ -166,16 +166,16 @@ class _FeedbackPageState extends State<FeedbackPage> {
                             controller: feedbacktext,
                             decoration: const InputDecoration(
                                 alignLabelWithHint: true,
-                                label: Text("Provide your Contact Developer"),
+                                label: Text("Provide your feedback"),
                                 border: OutlineInputBorder()),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              fixedSize: Size(
+                              fixedSize: const Size(
                                   200, 40) // put the width and height you want
                               ),
                           child: Wrap(children: <Widget>[
@@ -189,12 +189,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ]),
                           onPressed: () => sendmail(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Container(
                           height: 40,
-                          padding: EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.only(left: 20),
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.topLeft,
                           child: const Text(
@@ -208,7 +208,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.only(left: 20),
                           height: 30,
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.topLeft,
@@ -239,7 +239,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.only(left: 20),
                           height: 30,
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.topLeft,
@@ -280,7 +280,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   sendmail() async {
     String email = Uri.encodeComponent("everystint@gmail.com");
-    String subject = Uri.encodeComponent("Provide Contact Developer - Reg.");
+    String subject = Uri.encodeComponent("Provide feedback to the developer - Reg.");
     String body = Uri.encodeComponent(feedbacktext.text.toString().trim() == ""
         ? "I would like to contact you "
         : feedbacktext.text.toString().trim());

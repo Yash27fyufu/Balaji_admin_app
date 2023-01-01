@@ -41,7 +41,7 @@ class Tnc extends StatelessWidget {
                             'SHRI BALAJI ENTERPRISES',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.openSans(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -50,12 +50,12 @@ class Tnc extends StatelessWidget {
                           ),
                         ),
                       ]),
-                      margin: EdgeInsets.all(0.0),
-                      padding: EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.all(0.0),
+                      padding: const EdgeInsets.all(10.0),
                     ),
                   ),
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       'Home',
                       style: TextStyle(
                           color: Colors.black,
@@ -75,7 +75,7 @@ class Tnc extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       'About Us',
                       style: TextStyle(
                           color: Colors.black,
@@ -85,7 +85,7 @@ class Tnc extends StatelessWidget {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => AboutPage()),
+                        MaterialPageRoute(builder: (context) => const AboutPage()),
                       );
                     },
                   ),
@@ -94,7 +94,7 @@ class Tnc extends StatelessWidget {
                   ),
                   ListTile(
                     tileColor: Colors.grey[350],
-                    title: Text(
+                    title: const Text(
                       "Terms of Use",
                       style: TextStyle(
                           color: Colors.black,
@@ -104,12 +104,12 @@ class Tnc extends StatelessWidget {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => Tnc()),
+                        MaterialPageRoute(builder: (context) => const Tnc()),
                       );
                     },
                   ),
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       "Contact Developer",
                       style: TextStyle(
                           color: Colors.black,
@@ -119,7 +119,7 @@ class Tnc extends StatelessWidget {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => FeedbackPage()),
+                        MaterialPageRoute(builder: (context) => const FeedbackPage()),
                       );
                     },
                   ),
@@ -127,7 +127,7 @@ class Tnc extends StatelessWidget {
               ),
             ),
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 "Terms of Use",
                 style: TextStyle(
                     color: Colors.black,
@@ -141,7 +141,7 @@ class Tnc extends StatelessWidget {
                     color: Colors.white,
                     child: Container(
                       alignment: Alignment.topCenter,
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: 25, left: 15, right: 15, bottom: 60),
                       child: const Text(
                         "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tOwnership of content" +

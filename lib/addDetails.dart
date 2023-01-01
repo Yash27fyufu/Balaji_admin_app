@@ -117,7 +117,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                       ),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              fixedSize: Size(
+                              fixedSize: const Size(
                                   100, 40) // put the width and height you want
                               ),
                           child: Wrap(children: <Widget>[
@@ -131,7 +131,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                           onPressed: () => uploadImage(0)),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              fixedSize: Size(
+                              fixedSize: const Size(
                                   100, 40) // put the width and height you want
                               ),
                           child: const Text("Gallery",
@@ -141,7 +141,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                   ),
                   pickedimgList.isNotEmpty
                       ? Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           height: MediaQuery.of(context).size.height / 7,
                           width: double.infinity,
                           child: ListView.builder(
@@ -162,7 +162,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                                       Align(
                                         alignment: Alignment.topRight,
                                         child: IconButton(
-                                            padding: EdgeInsets.fromLTRB(
+                                            padding: const EdgeInsets.fromLTRB(
                                                 30, 0, 0, 30),
                                             onPressed: () {
                                               setState(() {
@@ -174,7 +174,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                                                 files.removeAt(indx);
                                               });
                                             },
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.cancel,
                                               color: Colors.red,
                                               size: 20,
@@ -183,7 +183,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                                     ]);
                               }),
                         )
-                      : SizedBox(
+                      : const SizedBox(
                           height: 15,
                         ),
                   Row(
@@ -283,7 +283,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
     pp = categoriesController.text.toString().trim().toString();
 
     if (pp.toString().isEmpty) {
-      final snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Enter category name first'),
         duration: Duration(milliseconds: 500),
       );
@@ -339,7 +339,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
 
   Future<void> insertData() async {
     if (categoriesController.text.isEmpty) {
-      final snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Fill the details'),
         duration: Duration(milliseconds: 500),
       );
@@ -349,7 +349,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
     }
 
     if (categories.contains(categoriesController.text)) {
-      final snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Already exists'),
         duration: Duration(milliseconds: 500),
       );
@@ -377,7 +377,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       categoriesController.clear();
       priceController.clear();
 
-      final snackBar = SnackBar(
+      final snackBar = const SnackBar(
         duration: Duration(milliseconds: 500),
         content: Text(' Data Added '),
       );
@@ -385,7 +385,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       gotolastpage(context);
     } else {
-      final snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Wait for images to upload'),
         duration: Duration(milliseconds: 500),
       );

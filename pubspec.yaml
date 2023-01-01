@@ -17,10 +17,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version:  1.0.0+1
 
 environment:
-  sdk: '>=2.16.1 <3.0.0'
+  sdk: '>=2.18.6'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,47 +31,27 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_database: ^9.0.9
-  firebase_core: ^1.14.0
-  google_fonts: ^2.3.2
-  fluttertoast: ^8.0.9
-  google_maps_flutter: ^2.1.4
-  auto_size_text: ^3.0.0
-  carousel_slider: ^4.0.0
-  smooth_page_indicator: ^1.0.0+2
-  image_picker: ^0.8.5+3
-  firebase_storage: ^10.3.3
-  url_launcher: ^6.1.5
-  launch_review: ^3.0.1
-  store_redirect: ^2.0.1
-  photo_view: ^0.14.0
-  label_marker: ^1.0.1
-  
-  
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_database: ^10.0.8
+  firebase_storage: ^11.0.9
+  google_fonts: ^2.1.1
+  carousel_slider: ^4.2.1
+  photo_view: ^0.14.0
+  image_picker: ^0.8.6
+  url_launcher: ^6.1.7
+  label_marker: ^1.0.1
+  google_maps_flutter: ^2.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_native_splash: ^2.2.5
-  flutter_launcher_icons: ^0.10.0
 
-flutter_icons:
-  image_path_android: "assets/balaji_cat_icon.png"
-  image_path_ios: "assets/balaji_cat_icon.png"
-
-  android : true
-  ios: true
-
-
-flutter_native_splash:
-  color: "#ffffff"
-  image: assets/balaji_cat_icon.png
-  android: true
+  flutter_launcher_icons: "^0.11.0"
+  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -80,16 +60,29 @@ flutter_native_splash:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+
+flutter_icons:
+    image_path_android: "assets/balaji_cat_icon.png"
+    android: true
+    uses-material-design: true
+
+
 flutter:
+
+
+  uses-material-design: true
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+
+  
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -107,10 +100,6 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: OpenSans
-      fonts:
-        - asset: fonts/OpenSans-Regular.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

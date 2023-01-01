@@ -80,7 +80,7 @@ class _LandingPageState extends State<LandingPage> {
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enableInfiniteScroll: img.length == 1 ? false : true,
                           autoPlayAnimationDuration:
-                              Duration(milliseconds: 800),
+                              const Duration(milliseconds: 800),
                           viewportFraction: 0.8,
                           onPageChanged: (index, reason) {
                             setState(() => activeIndex = index);
@@ -93,7 +93,7 @@ class _LandingPageState extends State<LandingPage> {
                                         url: img[index],
                                       ))),
                           child: Container(
-                            margin: EdgeInsets.all(5.0),
+                            margin: const EdgeInsets.all(5.0),
                             decoration: BoxDecoration(
                               color:
                                   img[index] == noimglink ? null : Colors.grey,
@@ -113,7 +113,7 @@ class _LandingPageState extends State<LandingPage> {
                       : Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsets.only(left: 20, top: 10, right: 20),
+                                const EdgeInsets.only(left: 20, top: 10, right: 20),
                             child: Scrollbar(
                               controller:
                                   new ScrollController(initialScrollOffset: 0),
@@ -132,7 +132,7 @@ class _LandingPageState extends State<LandingPage> {
                                             border: Border.all(
                                                 color: Colors.black)),
                                         child: Text(desc.toString(),
-                                            style: TextStyle(fontSize: 18)),
+                                            style: const TextStyle(fontSize: 18)),
                                       ),
                               ),
                             ),
@@ -144,7 +144,7 @@ class _LandingPageState extends State<LandingPage> {
                       ? null
                       : Expanded(
                           child: Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 left: 20, top: 22, right: 20, bottom: 20),
                             child: Scrollbar(
                               isAlwaysShown: true,
@@ -165,7 +165,7 @@ class _LandingPageState extends State<LandingPage> {
                                                 color: Colors.black)),
                                         child: Text(
                                           price.toString(),
-                                          style: TextStyle(fontSize: 18),
+                                          style: const TextStyle(fontSize: 18),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),

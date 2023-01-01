@@ -52,6 +52,8 @@ class _MainPageState extends State<Home> {
                   decoration: const BoxDecoration(
                     color: Colors.amber,
                   ),
+                  margin: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Wrap(children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -59,7 +61,7 @@ class _MainPageState extends State<Home> {
                         'SHRI BALAJI ENTERPRISES',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -68,13 +70,11 @@ class _MainPageState extends State<Home> {
                       ),
                     ),
                   ]),
-                  margin: EdgeInsets.all(0.0),
-                  padding: EdgeInsets.all(10.0),
                 ),
               ),
               ListTile(
                 tileColor: Colors.grey[350],
-                title: Text(
+                title: const Text(
                   'Home',
                   style: TextStyle(
                       color: Colors.black,
@@ -94,7 +94,7 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   'About Us',
                   style: TextStyle(
                       color: Colors.black,
@@ -104,7 +104,7 @@ class _MainPageState extends State<Home> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => AboutPage()),
+                    MaterialPageRoute(builder: (context) => const AboutPage()),
                   );
                 },
               ),
@@ -112,7 +112,7 @@ class _MainPageState extends State<Home> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Terms of Use",
                   style: TextStyle(
                       color: Colors.black,
@@ -122,12 +122,12 @@ class _MainPageState extends State<Home> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Tnc()),
+                    MaterialPageRoute(builder: (context) => const Tnc()),
                   );
                 },
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   "Contact Developer",
                   style: TextStyle(
                       color: Colors.black,
@@ -137,7 +137,8 @@ class _MainPageState extends State<Home> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => FeedbackPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const FeedbackPage()),
                   );
                 },
               ),
@@ -147,7 +148,7 @@ class _MainPageState extends State<Home> {
         appBar: AppBar(
           actions: <Widget>[
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: landingpg == "yes"
                   ? null
                   : MaterialButton(
@@ -179,12 +180,12 @@ class _MainPageState extends State<Home> {
           ],
           title: Text(
             pgtitle,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         body: categories.isEmpty
-            ? Align(
+            ? const Align(
                 alignment: Alignment.center,
                 child: Text(
                   "No Data Found",
@@ -202,7 +203,7 @@ class _MainPageState extends State<Home> {
         floatingActionButton: landingpg == "yes"
             ? null
             : FloatingActionButton(
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
                 onPressed: () {
                   pickedimgList.clear();
                   Navigator.pushReplacement(

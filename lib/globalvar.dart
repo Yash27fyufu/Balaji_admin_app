@@ -12,8 +12,8 @@ var pgtitle = "Home";
 var landingpg;
 var alreadyimgcount = 0;
 
-
-var desc, price;
+var globalBucket = PageStorageBucket();
+var desc, price, pdfurl;
 List img = [];
 List categories = [];
 List pickedimgList = [];
@@ -32,6 +32,8 @@ var smap = new Map<String, String>();
 var smapkeys = [];
 var smapval = [];
 var storageImages = [];
+var pdfflag = false;
+var document;
 var noimglink =
     "https://media.istockphoto.com/vectors/black-linear-photo-camera-like-no-image-available-vector-id1055079680?k=20&m=1055079680&s=612x612&w=0&h=ujFxkvnp-VclErGByAsr2RYLJObedAtK7NNLgNJY_8A=";
 
@@ -71,4 +73,35 @@ delete_images_from_db_which_are_not_used() {
   for (var xy in temp[2]) {
     FirebaseStorage.instance.refFromURL(xy.toString().trim()).delete();
   } // deletes the images from database which are deselected from the list
+}
+
+void getabtpgdetails() {
+  abtpgdetails.clear();
+  img.clear();
+  phonenumbers.clear();
+
+  vehicleStream = database.child("AboutPageDetails").once().then((event) {
+    dynamic data = event.snapshot.value;
+
+    abtpgdetails.add(data["Address"]);
+    abtpgdetails.add(data["Mail"]);
+    abtpgdetails.add(data["Phonenumber"]);
+
+    abtpgdetails.add(data["Images"]);
+    abtpgdetails.add(data["Name"]);
+
+    abtpgdetails[3] = abtpgdetails[3].toString().split(","); // split the urls
+
+    abtpgdetails[2] =
+        abtpgdetails[2].toString().split(","); // split the phone numbers
+
+    // for (var mx in abtpgdetails[3]) {
+    //   if (mx == "") continue;
+    //   img.add(mx);
+    // }
+    for (var mx in abtpgdetails[2]) {
+      if (mx == "") continue;
+      phonenumbers.add(mx);
+    }
+  });
 }

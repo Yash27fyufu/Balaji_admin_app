@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings, deprecated_member_use, unnecessary_null_comparison, annotate_overrides, avoid_print
+
 import 'dart:io';
 import 'dart:async';
 
@@ -26,7 +28,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
     if (temp[0] == "yes") {
       toenable = true;
       updatepriceController.text = temp[4].toString();
-      updatedescriptionController.text = temp[3];
+      updatedescriptionController.text = temp[3].toString();
       isChecked = true;
       landingpg = "yes";
     }
@@ -35,10 +37,11 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
   bool toenable = false;
 
-  var updatedescriptionController = TextEditingController();
   var updatepathController = TextEditingController()..text = pathxy;
-  var updatepriceController = TextEditingController();
   var updatecategoriesController = TextEditingController()..text = temp[1];
+
+  var updatepriceController = TextEditingController();
+  var updatedescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +161,9 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                                         Align(
                                           alignment: Alignment.topRight,
                                           child: IconButton(
-                                              padding: const EdgeInsets.fromLTRB(
-                                                  30, 0, 0, 30),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      30, 0, 0, 30),
                                               onPressed: () {
                                                 setState(() {
                                                   {
@@ -216,7 +220,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                     TextFormField(
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                            RegExp("[0-9a-zA-Z\n\s ]")),
+                            RegExp("[0-9a-zA-Z\n\s., ]")),
                       ],
                       enabled: toenable,
                       keyboardType: TextInputType.multiline,
@@ -233,10 +237,11 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                     TextFormField(
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                            RegExp("[0-9a-zA-Z\n\s ]")),
+                            RegExp("[0-9a-zA-Z\n\s., ]")),
                       ],
                       enabled: toenable,
                       keyboardType: TextInputType.multiline,
+                      maxLines: null,
                       controller: updatedescriptionController,
                       decoration: const InputDecoration(
                           label: Text(
@@ -244,7 +249,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                           border: OutlineInputBorder()),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 15,
                     ),
                     OutlinedButton(
                       onPressed: () {
@@ -276,7 +281,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
     pp = updatecategoriesController.text.toString().trim().toString();
 
     if (pp.toString().isEmpty) {
-      final snackBar = const SnackBar(
+      const snackBar = SnackBar(
         content: Text('Enter category name first'),
         duration: Duration(milliseconds: 500),
       );
@@ -336,7 +341,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
   void updatedata() async {
     if (alreadyimgcount + files.length != pickedimgList.length) {
-      final snackBar = const SnackBar(
+      const snackBar = SnackBar(
         content: Text('Wait for images to upload'),
         duration: Duration(milliseconds: 500),
       );
@@ -348,8 +353,9 @@ class _UpdateDetailsState extends State<UpdateDetails> {
     temp[2].removeWhere((element) => pickedimgList.contains(element));
 
     for (var d in temp[2]) {
-      if (d.toString().startsWith("http"))
+      if (d.toString().startsWith("http")) {
         FirebaseStorage.instance.refFromURL(d.toString().trim()).delete();
+      }
     }
 
 //above part filters the images which were deselected and delete from the storage
@@ -373,9 +379,9 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
     vehicleStream = database.child(pathxy).onValue.listen((event) {
       datax = event.snapshot.value;
-      if (datax != null)
+      if (datax != null) {
         database.child(newadd).set(datax);
-      else {
+      } else {
         return null;
       }
     });

@@ -1,4 +1,9 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'dart:async';
+
+import 'package:new_version_plus/new_version_plus.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 
 import 'aboutPage.dart';
 import 'globalvar.dart';
@@ -7,10 +12,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'addDetails.dart';
 import 'feedback.dart';
 import 'gridwidget.dart';
+
 import 'landingpage.dart';
+import 'updateappdialog.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -28,8 +34,8 @@ class _MainPageState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    categories.clear();
-    img.clear();
+    _checkVersion2();
+
     activateListeners(pathxy);
   }
 
@@ -37,6 +43,10 @@ class _MainPageState extends State<Home> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        if (pathxy == "Home") {
+          return true;
+        }
+
         pathxy = pathxy.substring(0, pathxy.lastIndexOf("/"));
         gotolastpage(context);
         return false;
@@ -61,9 +71,9 @@ class _MainPageState extends State<Home> {
                         'SHRI BALAJI ENTERPRISES',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize: ResponsiveFlutter.of(context).fontSize(2.5),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -74,11 +84,11 @@ class _MainPageState extends State<Home> {
               ),
               ListTile(
                 tileColor: Colors.grey[350],
-                title: const Text(
+                title: Text(
                   'Home',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -94,11 +104,11 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
-                title: const Text(
+                title: Text(
                   'About Us',
-                  style: TextStyle(
+                  style: TextStyle( 
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -112,11 +122,11 @@ class _MainPageState extends State<Home> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
-                title: const Text(
+                title: Text(
                   "Terms of Use",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -127,11 +137,11 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
-                title: const Text(
+                title: Text(
                   "Contact Developer",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -160,27 +170,12 @@ class _MainPageState extends State<Home> {
                           });
                         }
                       },
-                      child: isSelected
-                          ? const Text(
-                              "Edit is off",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 203, 19, 19),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : const Text(
-                              "Edit is on",
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
                     ),
             ),
           ],
           title: Text(
             pgtitle,
-            style: const TextStyle(
+            style: TextStyle(
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
@@ -194,24 +189,16 @@ class _MainPageState extends State<Home> {
               )
             : landingpg == "yes"
                 ? LandingPage()
-                : GridWidget(
-                    length: temp.length,
-                    text: temp,
-                    acti: activateListeners,
-                    isSelected: isSelected,
+                : PageStorage(
+                    bucket: globalBucket,
+                    key: const PageStorageKey(0),
+                    child: GridWidget(
+                      length: temp.length,
+                      text: temp,
+                      acti: activateListeners,
+                      isSelected: isSelected,
+                    ),
                   ),
-        floatingActionButton: landingpg == "yes"
-            ? null
-            : FloatingActionButton(
-                child: const Icon(Icons.add),
-                onPressed: () {
-                  pickedimgList.clear();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddDetails()),
-                  );
-                },
-              ),
       ),
     );
   }
@@ -222,6 +209,9 @@ class _MainPageState extends State<Home> {
   }
 
   Future<void> activateListeners(String x) async {
+    categories.clear();
+    img.clear();
+
     vehicleStream = database.child(x).onValue.listen((event) async {
       dynamic data = event.snapshot.value;
 
@@ -233,7 +223,11 @@ class _MainPageState extends State<Home> {
         temp.add(event.snapshot.value);
       } else {
         data.forEach((k, v) async {
-          if (k != "lp" && k != "desc" && k != "price") {
+          if (k != "lp" &&
+              k != "desc" &&
+              k != "price" &&
+              k != "images" &&
+              k != "pdf") {
             if (k != "images") {
               temp.add(k);
             }
@@ -291,9 +285,36 @@ class _MainPageState extends State<Home> {
         img = img;
         categories = temp;
       });
+
+      setState(() {});
     });
   }
+
+  void _checkVersion2() async {
+    final newVersion = NewVersionPlus(
+      iOSId: 'com.latest.sbe.catalogue',
+      androidId: 'com.latest.sbe.catalogue',
+    );
+
+    final status = await newVersion.getVersionStatus();
+
+    if (status!.canUpdate) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return UpdateDialog(
+            allowDismissal: true,
+            description: status!.releaseNotes!,
+            version: status.storeVersion,
+            appLink: status.appStoreLink,
+          );
+        },
+      );
+    }
+  }
 }
+
+
 
 //shribalajienterprises2006@gmail.com
 //address old no.3 new no.5

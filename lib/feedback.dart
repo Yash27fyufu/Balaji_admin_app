@@ -16,7 +16,7 @@ class FeedbackPage extends StatefulWidget {
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
-  var feedbacktext = new TextEditingController();
+  var feedbacktext = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +44,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     decoration: const BoxDecoration(
                       color: Colors.amber,
                     ),
+                    margin: const EdgeInsets.all(0.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Wrap(children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -60,8 +62,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         ),
                       ),
                     ]),
-                    margin: const EdgeInsets.all(0.0),
-                    padding: const EdgeInsets.all(10.0),
                   ),
                 ),
                 ListTile(
@@ -178,10 +178,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               fixedSize: const Size(
                                   200, 40) // put the width and height you want
                               ),
-                          child: Wrap(children: <Widget>[
+                          child: Wrap(children: const <Widget>[
                             //place Icon here
 
-                            const Text(
+                            Text(
                               "Send mail",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -240,7 +240,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 20),
-                          height: 30,
+                          height: 50,
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.topLeft,
                           child: GestureDetector(

@@ -45,11 +45,42 @@ class _AboutPageState extends State<AboutPage> {
         markerId: const MarkerId("1"),
         position: const LatLng(13.089846455861958, 80.28667655856152)));
 
+    getabtpgdetails();
+  }
+
+  void getabtpgdetails() {
     img.clear();
     phonenumbers.clear();
     abtpgdetails.clear();
 
-    getabtpgdetails();
+    abtpgdetails.clear();
+    vehicleStream = database.child("AboutPageDetails").once().then((event) {
+      dynamic data = event.snapshot.value;
+
+      abtpgdetails.add(data["Address"]);
+      abtpgdetails.add(data["Mail"]);
+      abtpgdetails.add(data["Phonenumber"]);
+
+      abtpgdetails.add(data["Images"]);
+      abtpgdetails.add(data["Name"]);
+
+      abtpgdetails[3] = abtpgdetails[3].toString().split(","); // split the urls
+
+      abtpgdetails[2] =
+          abtpgdetails[2].toString().split(","); // split the phone numbers
+
+      for (var mx in abtpgdetails[3]) {
+        if (mx == "") continue;
+        img.add(mx);
+      }
+      for (var mx in abtpgdetails[2]) {
+        if (mx == "") continue;
+        phonenumbers.add(mx);
+      }
+      setState(() {
+        
+      });
+    });
   }
 
   @override
@@ -162,7 +193,8 @@ class _AboutPageState extends State<AboutPage> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const FeedbackPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const FeedbackPage()),
                   );
                 },
               ),
@@ -354,7 +386,7 @@ class _AboutPageState extends State<AboutPage> {
 
   sendmail() async {
     String email = Uri.encodeComponent(abtpgdetails[1]);
-    String subject = Uri.encodeComponent("Provide Contact Developer - Reg.");
+    String subject = Uri.encodeComponent("Interested in your products - Reg.");
     String body = "I would like to contact you ";
 
     Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
@@ -363,34 +395,5 @@ class _AboutPageState extends State<AboutPage> {
     } else {
       //email app is not opened
     }
-  }
-
-  void getabtpgdetails() {
-    vehicleStream = database.child("AboutPageDetails").once().then((event) {
-      dynamic data = event.snapshot.value;
-
-      abtpgdetails.add(data["Address"]);
-      abtpgdetails.add(data["Mail"]);
-      abtpgdetails.add(data["Phonenumber"]);
-
-      abtpgdetails.add(data["Images"]);
-      abtpgdetails.add(data["Name"]);
-
-      abtpgdetails[3] = abtpgdetails[3].toString().split(","); // split the urls
-
-      abtpgdetails[2] =
-          abtpgdetails[2].toString().split(","); // split the phone numbers
-
-      for (var mx in abtpgdetails[3]) {
-        if (mx == "") continue;
-        img.add(mx);
-      }
-      for (var mx in abtpgdetails[2]) {
-        if (mx == "") continue;
-        phonenumbers.add(mx);
-      }
-
-      setState(() {});
-    });
   }
 }

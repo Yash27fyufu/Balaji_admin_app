@@ -94,8 +94,8 @@ class GridWidget extends StatelessWidget {
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text("Delete ${text[idx]}"),
-                                  content:
-                                      const Text("Are you sure you want to delete?"),
+                                  content: const Text(
+                                      "Are you sure you want to delete?"),
                                   actions: [
                                     RawMaterialButton(
                                       onPressed: () {
@@ -155,6 +155,8 @@ class GridWidget extends StatelessWidget {
         temp.add(data["images"]);
       }
     });
+
+    print(temp);
 
     var _timer = new Timer(const Duration(milliseconds: 800), () {
       temp[2] = temp[2].toString().substring(

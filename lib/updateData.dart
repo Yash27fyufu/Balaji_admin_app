@@ -23,10 +23,12 @@ class _UpdateDetailsState extends State<UpdateDetails> {
   List<String> files = [];
 
   void initState() {
+    print("dsssssssssssssssssssssssss");
+    print(temp);
     if (temp[0] == "yes") {
       toenable = true;
       updatepriceController.text = temp[4].toString();
-      updatedescriptionController.text = temp[3];
+      updatedescriptionController.text = temp[3].toString();
       isChecked = true;
       landingpg = "yes";
     }
@@ -35,10 +37,11 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
   bool toenable = false;
 
-  var updatedescriptionController = TextEditingController();
   var updatepathController = TextEditingController()..text = pathxy;
-  var updatepriceController = TextEditingController();
   var updatecategoriesController = TextEditingController()..text = temp[1];
+
+  var updatepriceController = TextEditingController();
+  var updatedescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +161,9 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                                         Align(
                                           alignment: Alignment.topRight,
                                           child: IconButton(
-                                              padding: const EdgeInsets.fromLTRB(
-                                                  30, 0, 0, 30),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      30, 0, 0, 30),
                                               onPressed: () {
                                                 setState(() {
                                                   {
@@ -216,7 +220,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                     TextFormField(
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                            RegExp("[0-9a-zA-Z\n\s ]")),
+                            RegExp("[0-9a-zA-Z\n\s., ]")),
                       ],
                       enabled: toenable,
                       keyboardType: TextInputType.multiline,
@@ -233,18 +237,19 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                     TextFormField(
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                            RegExp("[0-9a-zA-Z\n\s ]")),
+                            RegExp("[0-9a-zA-Z\n\s., ]")),
                       ],
                       enabled: toenable,
                       keyboardType: TextInputType.multiline,
+                      maxLines: null,
                       controller: updatedescriptionController,
                       decoration: const InputDecoration(
-                          label: Text(
-                              "Description"), // enable multi line text as input
+                          label:
+                              Text("Description"), // enable multi line text as input
                           border: OutlineInputBorder()),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 15,
                     ),
                     OutlinedButton(
                       onPressed: () {

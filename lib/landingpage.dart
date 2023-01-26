@@ -1,6 +1,14 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:sbe/pdfview.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+
+import 'mainpage.dart';
 import 'showFullImage.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'globalvar.dart';
 
@@ -22,6 +30,11 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     img.clear();
+
+    pdfflag = false;
+    check_for_pdf();
+    getabtpgdetails();
+
     {
       categories[0]["images"] = categories[0]["images"].toString().substring(
           1,
@@ -51,7 +64,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 //changes for carousel end -1
 
-  var sdf = new ScrollController(initialScrollOffset: 0);
+  var sdf = ScrollController(initialScrollOffset: 0);
   @override
   Widget build(BuildContext context) {
     price = categories[0]["price"] == null
@@ -100,7 +113,8 @@ class _LandingPageState extends State<LandingPage> {
                               borderRadius: BorderRadius.circular(10.0),
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
-                                image: NetworkImage(img[index]),
+                                image:
+                                    NetworkImage(img[index]),
                               ),
                             ),
                           ),
@@ -108,18 +122,56 @@ class _LandingPageState extends State<LandingPage> {
                       }),
                 ),
                 Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(140, double.infinity),
+                        // put the width and height you want
+                      ),
+                      child: Wrap(children: const <Widget>[
+                        //place Icon here
+
+                        Text(
+                          "Upload PDF",
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                      onPressed: () => {uploadpdffiles()}),
+                ),
+                !pdfflag
+                    ? SizedBox()
+                    : Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(140, double.infinity),
+                              // put the width and height you want
+                            ),
+                            child: Wrap(children: const <Widget>[
+                              //place Icon here
+
+                              Text(
+                                "View PDF",
+                                textAlign: TextAlign.center,
+                              ),
+                            ]),
+                            onPressed: () => {getFirebaseImageFolder()}),
+                      ),
+                Container(
                   child: desc == ""
                       ? null
                       : Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20, top: 10, right: 20),
+                            padding: const EdgeInsets.only(
+                                left: 20, top: 10, right: 20),
                             child: Scrollbar(
                               controller:
-                                  new ScrollController(initialScrollOffset: 0),
+                                  ScrollController(initialScrollOffset: 0),
                               child: SingleChildScrollView(
-                                controller: new ScrollController(
-                                    initialScrollOffset: 0),
+                                controller:
+                                    ScrollController(initialScrollOffset: 0),
                                 child: desc == ""
                                     ? null
                                     : Container(
@@ -132,7 +184,8 @@ class _LandingPageState extends State<LandingPage> {
                                             border: Border.all(
                                                 color: Colors.black)),
                                         child: Text(desc.toString(),
-                                            style: const TextStyle(fontSize: 18)),
+                                            style:
+                                                const TextStyle(fontSize: 18)),
                                       ),
                               ),
                             ),
@@ -163,10 +216,17 @@ class _LandingPageState extends State<LandingPage> {
                                         decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: Colors.black)),
-                                        child: Text(
-                                          price.toString(),
-                                          style: const TextStyle(fontSize: 18),
-                                          textAlign: TextAlign.center,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            UrlLauncher.launch(
+                                                "tel://${phonenumbers[0]}");
+                                          },
+                                          child: Text(
+                                            price.toString(),
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
                                       ),
                               ),
@@ -180,6 +240,125 @@ class _LandingPageState extends State<LandingPage> {
         ),
       ),
     );
+  }
+
+  String sd = "";
+
+  void getFirebaseImageFolder() async {
+    try {
+      downloadpdffile();
+    } catch (e) {
+      const snackBar = SnackBar(
+        content: Text('No PDF found'),
+        duration: Duration(milliseconds: 500),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  uploadpdffiles() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+    if (result == null) {
+      var storageRef = FirebaseStorage.instance
+          .ref()
+          .child("PDF/$pathxy/${sd.toString().replaceAll("/", "")}1");
+      pdfurl = await storageRef.getDownloadURL();
+
+      FirebaseStorage.instance.refFromURL(pdfurl).delete();
+      database.child(pathxy).update({"pdf": null});
+      pgtitle = "Home";
+      pathxy = "Home";
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Home(
+                  title: pgtitle,
+                )),
+      );
+
+      return;
+    }
+    sd = result.files.first.path.toString();
+
+    if (result.files.first.path.toString().substring(
+            result.files.first.path.toString().lastIndexOf(".") + 1) ==
+        "pdf") {
+      var file = File(sd);
+
+      final ref = FirebaseStorage.instance.ref().child("PDF/$pathxy/1");
+
+      ref.putFile(file).then((TaskSnapshot taskSnapshot) async {
+        if (taskSnapshot.state == TaskState.success) {
+          //success
+
+          taskSnapshot.ref.getDownloadURL().then((imageURL) {
+            database.child(pathxy).update({"pdf": imageURL});
+
+            const snackBar = SnackBar(
+              content: Text('File Uploaded'),
+              duration: Duration(milliseconds: 500),
+            );
+
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+            pgtitle = "Home";
+            pathxy = "Home";
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Home(
+                        title: pgtitle,
+                      )),
+            );
+          });
+        } else if (taskSnapshot.state == TaskState.running) {
+          // Show Prgress indicator
+        } else if (taskSnapshot.state == TaskState.error) {
+          // Handle Error Here
+        }
+      });
+    } else {
+      return;
+    }
+  }
+
+  downloadpdffile() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PDFViewpage(),
+      ),
+    );
+  }
+
+  void check_for_pdf() async {
+    try {
+      vehicleStream = database.child(pathxy).onValue.listen((event) async {
+        dynamic data = event.snapshot.value;
+        pdfurl = await event.snapshot.child("pdf").value;
+
+        if (pdfurl != null) {
+          pdfflag = true;
+          setState(() {});
+        }
+      });
+
+      // var storageRef = FirebaseStorage.instance
+      //     .ref()
+      //     .child("PDF/$pathxy/${sd.toString().replaceAll("/", "")}1");
+
+      // pdfurl = await storageRef.getDownloadURL();
+
+      return;
+    } catch (e) {
+      pdfflag = false;
+      setState(() {});
+    }
   }
 
 }

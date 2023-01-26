@@ -1,8 +1,15 @@
+// ignore_for_file: deprecated_member_use, file_names
+
 import 'dart:async';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+// ignore: import_of_legacy_library_into_null_safe
+
 import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -24,12 +31,13 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
   var categoriesController = TextEditingController();
   var descriptionController = TextEditingController();
   var pathController = TextEditingController()..text = pathxy;
-
+  var pdfflag = false;
   var priceController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -108,6 +116,24 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                   const SizedBox(
                     height: 15,
                   ),
+                  // SizedBox(
+                  //   width: double.infinity,
+                  //   child: ElevatedButton(
+                  //       style: ElevatedButton.styleFrom(
+                  //         fixedSize: const Size(140, double.infinity),
+                  //         // put the width and height you want
+                  //       ),
+                  //       child: Wrap(children: const <Widget>[
+                  //         //place Icon here
+
+                  //         Text(
+                  //           "Upload PDF",
+                  //           textAlign: TextAlign.center,
+                  //         ),
+                  //       ]),
+                  //       onPressed: () => {uploadpdffiles()}),
+                  // ),
+                 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -120,10 +146,10 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                               fixedSize: const Size(
                                   100, 40) // put the width and height you want
                               ),
-                          child: Wrap(children: <Widget>[
+                          child: Wrap(children: const <Widget>[
                             //place Icon here
 
-                            const Text(
+                            Text(
                               "Camera",
                               textAlign: TextAlign.center,
                             ),
@@ -214,7 +240,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                   TextFormField(
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(
-                          RegExp("[0-9a-zA-Z\n\s ]")),
+                          RegExp("[0-9a-zA-Z\n\s., ]")),
                     ],
                     enabled: toenable,
                     // validator: (value) {
@@ -239,7 +265,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                   TextFormField(
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(
-                          RegExp("[0-9a-zA-Z\n\s ]")),
+                          RegExp("[0-9a-zA-Z\n\s., ]")),
                     ],
                     enabled: toenable,
                     // validator: (value) {
@@ -283,7 +309,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
     pp = categoriesController.text.toString().trim().toString();
 
     if (pp.toString().isEmpty) {
-      final snackBar = const SnackBar(
+      const snackBar = SnackBar(
         content: Text('Enter category name first'),
         duration: Duration(milliseconds: 500),
       );
@@ -313,17 +339,14 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
 
       final ref = FirebaseStorage.instance
           .ref()
-          .child(pathxy + "/" + pp + "/" + image.path.replaceAll("/", ""));
+          .child("${pathxy + "/" + pp}/${image.path.replaceAll("/", "")}");
 
       ref.putFile(file).then((TaskSnapshot taskSnapshot) {
         if (taskSnapshot.state == TaskState.success) {
-
           // Get Image URL
           taskSnapshot.ref.getDownloadURL().then((imageURL) {
             files.add(imageURL);
             setState(() {});
-
-            
           });
         } else if (taskSnapshot.state == TaskState.running) {
           // Show Prgress indicator
@@ -331,7 +354,6 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
           // Handle Error Here
         }
       });
-      ;
 
       // setState(() => pickedimgList.add(file));
     } on PlatformException catch (e) {}
@@ -339,7 +361,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
 
   Future<void> insertData() async {
     if (categoriesController.text.isEmpty) {
-      final snackBar = const SnackBar(
+      const snackBar = SnackBar(
         content: Text('Fill the details'),
         duration: Duration(milliseconds: 500),
       );
@@ -349,7 +371,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
     }
 
     if (categories.contains(categoriesController.text)) {
-      final snackBar = const SnackBar(
+      const snackBar = SnackBar(
         content: Text('Already exists'),
         duration: Duration(milliseconds: 500),
       );
@@ -377,7 +399,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       categoriesController.clear();
       priceController.clear();
 
-      final snackBar = const SnackBar(
+      const snackBar = SnackBar(
         duration: Duration(milliseconds: 500),
         content: Text(' Data Added '),
       );
@@ -385,7 +407,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       gotolastpage(context);
     } else {
-      final snackBar = const SnackBar(
+      const snackBar = SnackBar(
         content: Text('Wait for images to upload'),
         duration: Duration(milliseconds: 500),
       );
@@ -394,4 +416,8 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       return;
     }
   }
+
+  String sd = "";
+
+ 
 }

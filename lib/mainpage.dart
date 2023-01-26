@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'dart:async';
+
+import 'package:new_version_plus/new_version_plus.dart';
 
 import 'aboutPage.dart';
 import 'globalvar.dart';
@@ -10,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'addDetails.dart';
 import 'feedback.dart';
 import 'gridwidget.dart';
+
 import 'landingpage.dart';
 
 // ignore: must_be_immutable
@@ -30,6 +35,7 @@ class _MainPageState extends State<Home> {
     super.initState();
     categories.clear();
     img.clear();
+    //_checkVersion2();
     activateListeners(pathxy);
   }
 
@@ -37,6 +43,9 @@ class _MainPageState extends State<Home> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        if (pathxy == "Home") {
+          return true;
+        }
         pathxy = pathxy.substring(0, pathxy.lastIndexOf("/"));
         gotolastpage(context);
         return false;
@@ -232,12 +241,19 @@ class _MainPageState extends State<Home> {
       if (landingpg == "yes") {
         temp.add(event.snapshot.value);
       } else {
+        
         data.forEach((k, v) async {
-          if (k != "lp" && k != "desc" && k != "price") {
+          if (k != "lp" &&
+              k != "desc" &&
+              k != "price" &&
+              k != "images" &&
+              k != "pdf") {
             if (k != "images") {
               temp.add(k);
             }
-            if (event.snapshot.child(k).child("images").value == "[]") {
+            if ((event.snapshot.child(k).child("images").value == "[]")) {
+              var gf = event.snapshot.child(k).key;
+              print(gf);
               img.add(noimglink);
             } else {
               img.add(event.snapshot
@@ -270,6 +286,7 @@ class _MainPageState extends State<Home> {
             }
           }
         });
+
         bool isSwapped = false;
         do {
           isSwapped = false;
@@ -284,7 +301,7 @@ class _MainPageState extends State<Home> {
               img[i + 1] = img[i];
               img[i] = imgtr;
             }
-          }
+          } 
         } while ((isSwapped));
       }
       setState(() {
@@ -292,6 +309,41 @@ class _MainPageState extends State<Home> {
         categories = temp;
       });
     });
+  }
+
+  void _checkVersion2() {
+    final newVersion = NewVersionPlus(
+      iOSId: 'com.sbe.catalogue',
+      androidId: 'com.sbe.catalogue',
+    );
+
+    // You can let the plugin handle fetching the status and showing a dialog,
+    // or you can fetch the status and display your own dialog, or no dialog.
+    const simpleBehavior = true;
+
+    if (simpleBehavior) {
+      basicStatusCheck(newVersion);
+    }
+  }
+
+  basicStatusCheck(NewVersionPlus newVersion) {
+    newVersion.showAlertIfNecessary(context: context);
+  }
+
+  advancedStatusCheck(NewVersionPlus newVersion) async {
+    final status = await newVersion.getVersionStatus();
+    print(status);
+    if (status != null) {
+      print(status.releaseNotes);
+      print(status.appStoreLink);
+      print(status.localVersion);
+      print(status.storeVersion);
+      print(status.canUpdate.toString());
+      newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status,
+      );
+    }
   }
 }
 

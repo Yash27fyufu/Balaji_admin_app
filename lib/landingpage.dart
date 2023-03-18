@@ -32,6 +32,8 @@ class _LandingPageState extends State<LandingPage> {
     super.initState();
     getabtpgdetails();
 
+    print(pathxy);
+
     pdfflag = false;
     check_for_pdf();
 
@@ -121,7 +123,7 @@ class _LandingPageState extends State<LandingPage> {
                       }),
                 ),
                 !pdfflag
-                    ?const SizedBox()
+                    ? const SizedBox()
                     : Container(
                         width: double.infinity,
                         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -140,6 +142,24 @@ class _LandingPageState extends State<LandingPage> {
                             ]),
                             onPressed: () => {getFirebaseImageFolder()}),
                       ),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(140, double.infinity),
+                        // put the width and height you want
+                      ),
+                      child: Wrap(children: const <Widget>[
+                        //place Icon here
+
+                        Text(
+                          "Note Order",
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                      onPressed: () => {getFirebaseImageFolder()}),
+                ),
                 Container(
                   child: desc == ""
                       ? null

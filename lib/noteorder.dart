@@ -1,27 +1,26 @@
-// ignore_for_file: library_prefixes
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:url_launcher/url_launcher.dart';
 import 'aboutPage.dart';
 import 'globalvar.dart';
+import 'feedback.dart';
 import 'mainpage.dart';
-import 'noteorder.dart';
 import 'tnc.dart';
 
-class FeedbackPage extends StatefulWidget {
-  const FeedbackPage({Key? key}) : super(key: key);
+class NoteOrder extends StatefulWidget {
+  const NoteOrder({Key? key}) : super(key: key);
 
   @override
-  State<FeedbackPage> createState() => _FeedbackPageState();
+  State<NoteOrder> createState() => _NoteOrderState();
 }
 
-class _FeedbackPageState extends State<FeedbackPage> {
-  var feedbacktext = TextEditingController();
+class _NoteOrderState extends State<NoteOrder> {
+  var shopname = TextEditingController();
+  var contactnumber = TextEditingController();
+  var writtenorder = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 ListTile(
                   visualDensity: VisualDensity(vertical: 0),
                   dense: true,
-                  tileColor: Colors.grey[350],
                   title: Text(
                     'Home',
                     style: TextStyle(
@@ -96,6 +94,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 ListTile(
                   visualDensity: VisualDensity(vertical: 0),
                   dense: true,
+                  tileColor: Colors.grey[350],
                   title: Text(
                     'Order',
                     style: TextStyle(
@@ -172,7 +171,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
           ),
           appBar: AppBar(
             title: const Text(
-              "Contact Developer",
+              "Order",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -185,22 +184,49 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   color: Colors.white,
                   child: Container(
                     alignment: Alignment.topCenter,
-                    padding: const EdgeInsets.only(top: 25),
+                    padding: const EdgeInsets.only(top: 20),
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
-                            minLines: 5,
-                            maxLines: 15,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp(
-                                  "[0-9a-zA-Z .,\' \( \) \[ \\] \\n \{ \}]")),
-                            ],
-                            controller: feedbacktext,
+                            controller: shopname,
                             decoration: const InputDecoration(
                                 alignLabelWithHint: true,
-                                label: Text("Provide your feedback"),
+                                label: Text("Shop Name"),
+                                border: OutlineInputBorder()),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: TextFormField(
+                            controller: contactnumber,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(RegExp(
+                                  "[0-9, \\- ]")),
+                            ],
+                            decoration: const InputDecoration(
+                                alignLabelWithHint: true,
+                                label: Text("Contact Number"),
+                                
+                                border: OutlineInputBorder()),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: TextFormField(
+                            minLines: 5,
+                            maxLines: 45,
+                            controller: writtenorder,
+                            decoration: const InputDecoration(
+                                alignLabelWithHint: true,
+                                label: Text("Write your order here..."),
                                 border: OutlineInputBorder()),
                           ),
                         ),
@@ -216,7 +242,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                             //place Icon here
 
                             Text(
-                              "Send mail",
+                              "Send Order",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -225,84 +251,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         ),
                         const SizedBox(
                           height: 30,
-                        ),
-                        Container(
-                          height: 40,
-                          padding: const EdgeInsets.only(left: 20),
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: const Text(
-                            'Connect us : ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 20),
-                          height: 30,
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: GestureDetector(
-                            onTap: () {
-                              UrlLauncher.launch("tel://+91 91500 66366");
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.call,
-                                  color: Colors.grey[800],
-                                  size: 30.0,
-                                ),
-                                Text(
-                                  "+91 91500 66366",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      color: Colors.grey[800],
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 20),
-                          height: 50,
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: GestureDetector(
-                            onTap: () {
-                              launchUrl(
-                                  Uri.parse("mailto:everystint@gmail.com"));
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.mail,
-                                  color: Colors.grey[800],
-                                  size: 30.0,
-                                ),
-                                Text(
-                                  " everystint@gmail.com",
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      color: Colors.grey[800],
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ),
                       ],
                     ),
@@ -313,12 +261,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
   }
 
   sendmail() async {
-    String email = Uri.encodeComponent("everystint@gmail.com");
+    String email = Uri.encodeComponent("shribalajienterprises2006@gmail.com");
     String subject =
-        Uri.encodeComponent("Provide feedback to the developer - Reg.");
-    String body = Uri.encodeComponent(feedbacktext.text.toString().trim() == ""
-        ? "I would like to contact you "
-        : feedbacktext.text.toString().trim());
+        Uri.encodeComponent(shopname.text.toString().trim() == "" ? "Order" : shopname.text.toLowerCase().trim());
+    String body = Uri.encodeComponent((writtenorder.text.toString().trim() == ""
+        ? "I would like to place an order "
+        : writtenorder.text.toString().trim()) + contactnumber.text.toString());
 
     Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
     if (await launchUrl(mail)) {

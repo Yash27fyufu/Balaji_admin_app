@@ -3,9 +3,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'feedback.dart';
 import 'globalvar.dart';
+import 'noteorder.dart';
 import 'showFullImage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,12 +85,12 @@ class _AboutPageState extends State<AboutPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "SHRI BALAJI ENTERPRISES",
+                        'SHRI BALAJI ENTERPRISES',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize: ResponsiveFlutter.of(context).fontSize(2.5),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -98,11 +100,14 @@ class _AboutPageState extends State<AboutPage> {
                 ),
               ),
               ListTile(
-                title: const Text(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                tileColor: Colors.grey[350],
+                title: Text(
                   'Home',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -118,12 +123,32 @@ class _AboutPageState extends State<AboutPage> {
                 },
               ),
               ListTile(
-                tileColor: Colors.grey[350],
-                title: const Text(
-                  'About Us',
-                  style: TextStyle(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
+                  'Order',
+                  style: TextStyle( 
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NoteOrder()),
+                  );
+                },
+              ),
+             
+              ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                
+                title: Text(
+                  'About Us',
+                  style: TextStyle( 
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -137,11 +162,13 @@ class _AboutPageState extends State<AboutPage> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
-                title: const Text(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
                   "Terms of Use",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -152,11 +179,13 @@ class _AboutPageState extends State<AboutPage> {
                 },
               ),
               ListTile(
-                title: const Text(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
                   "Contact Developer",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {

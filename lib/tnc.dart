@@ -1,3 +1,5 @@
+import 'package:responsive_flutter/responsive_flutter.dart';
+
 import 'feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'aboutPage.dart';
 import 'globalvar.dart';
 import 'mainpage.dart';
+import 'noteorder.dart';
 
 class Tnc extends StatelessWidget {
   const Tnc({Key? key}) : super(key: key);
@@ -26,105 +29,133 @@ class Tnc extends StatelessWidget {
         child: Scaffold(
             drawer: Drawer(
               child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  SizedBox(
-                    height: 105,
-                    child: DrawerHeader(
-                      decoration: const BoxDecoration(
-                        color: Colors.amber,
-                      ),
-                      margin: const EdgeInsets.all(0.0),
-                      padding: const EdgeInsets.all(10.0),
-                      child: Wrap(children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'SHRI BALAJI ENTERPRISES',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.openSans(
-                              textStyle: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+            padding: EdgeInsets.zero,
+            children: [
+              SizedBox(
+                height: 105,
+                child: DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Colors.amber,
+                  ),
+                  margin: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Wrap(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'SHRI BALAJI ENTERPRISES',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: ResponsiveFlutter.of(context).fontSize(2.5),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ]),
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    title: const Text(
-                      'Home',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      pgtitle = "Home";
-                      pathxy = "Home";
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Home(
-                                  title: pgtitle,
-                                )),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: const Text(
-                      'About Us',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const AboutPage()),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height - 350,
-                  ),
-                  ListTile(
-                    tileColor: Colors.grey[350],
-                    title: const Text(
-                      "Terms of Use",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Tnc()),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: const Text(
-                      "Contact Developer",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const FeedbackPage()),
-                      );
-                    },
-                  ),
-                ],
+                  ]),
+                ),
               ),
+              ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                tileColor: Colors.grey[350],
+                title: Text(
+                  'Home',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  pgtitle = "Home";
+                  pathxy = "Home";
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Home(
+                              title: pgtitle,
+                            )),
+                  );
+                },
+              ),
+              ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
+                  'Order',
+                  style: TextStyle( 
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NoteOrder()),
+                  );
+                },
+              ),
+             
+              ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                
+                title: Text(
+                  'About Us',
+                  style: TextStyle( 
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AboutPage()),
+                  );
+                },
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 350,
+              ),
+              ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
+                  "Terms of Use",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Tnc()),
+                  );
+                },
+              ),
+              ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
+                  "Contact Developer",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FeedbackPage()),
+                  );
+                },
+              ),
+            ],
+          ),
             ),
             appBar: AppBar(
               title: const Text(

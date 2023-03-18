@@ -1,9 +1,10 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'dart:async';
 
 import 'package:new_version_plus/new_version_plus.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:sbe/noteorder.dart';
 
 import 'aboutPage.dart';
 import 'globalvar.dart';
@@ -83,6 +84,8 @@ class _MainPageState extends State<Home> {
                 ),
               ),
               ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
                 tileColor: Colors.grey[350],
                 title: Text(
                   'Home',
@@ -104,6 +107,27 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
+                  'Order',
+                  style: TextStyle( 
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NoteOrder()),
+                  );
+                },
+              ),
+             
+              ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                
                 title: Text(
                   'About Us',
                   style: TextStyle( 
@@ -122,6 +146,8 @@ class _MainPageState extends State<Home> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
                 title: Text(
                   "Terms of Use",
                   style: TextStyle(
@@ -137,6 +163,8 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
                 title: Text(
                   "Contact Developer",
                   style: TextStyle(
@@ -310,7 +338,7 @@ class _MainPageState extends State<Home> {
           );
         },
       );
-    }
+    } 
   }
 }
 

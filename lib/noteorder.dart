@@ -205,13 +205,12 @@ class _NoteOrderState extends State<NoteOrder> {
                           child: TextFormField(
                             controller: contactnumber,
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp(
-                                  "[0-9, \\- ]")),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9, \\- ]")),
                             ],
                             decoration: const InputDecoration(
                                 alignLabelWithHint: true,
                                 label: Text("Contact Number"),
-                                
                                 border: OutlineInputBorder()),
                           ),
                         ),
@@ -262,11 +261,14 @@ class _NoteOrderState extends State<NoteOrder> {
 
   sendmail() async {
     String email = Uri.encodeComponent("shribalajienterprises2006@gmail.com");
-    String subject =
-        Uri.encodeComponent(shopname.text.toString().trim() == "" ? "Order" : shopname.text.toLowerCase().trim());
+    String subject = Uri.encodeComponent(shopname.text.toString().trim() == ""
+        ? "Order"
+        : shopname.text.toLowerCase().trim());
     String body = Uri.encodeComponent((writtenorder.text.toString().trim() == ""
-        ? "I would like to place an order "
-        : writtenorder.text.toString().trim()) + contactnumber.text.toString());
+            ? "I would like to place an order "
+            : writtenorder.text.toString().trim()) +
+        "\nContact no:" +
+        contactnumber.text.toString());
 
     Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
     if (await launchUrl(mail)) {

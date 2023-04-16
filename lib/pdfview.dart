@@ -29,6 +29,8 @@ class _PDFViewpageState extends State<PDFViewpage> {
     filenameinurl = pdfurl.toString().substring(
         pdfurl.toString().lastIndexOf("%2F") + 3,
         pdfurl.toString().lastIndexOf("?alt="));
+    asd = pathxy.toString().replaceAll("/", "");
+
     downloadfile();
   }
 
@@ -60,7 +62,7 @@ class _PDFViewpageState extends State<PDFViewpage> {
                     iconSize: 20,
                     icon: const Icon(Icons.share),
                     onPressed: () {
-                      sharefile();
+                      sharefile(asd);
                       // ...
                     },
                   ),
@@ -99,8 +101,6 @@ class _PDFViewpageState extends State<PDFViewpage> {
     setState(() {
       isloadin = true;
     });
-
-    var asd = pathxy.toString().replaceAll("/", "");
 
     if (!await Directory('storage/emulated/0/Download/SBE/$asd').exists()) {
       await Directory('storage/emulated/0/Download/SBE/$asd').create();
@@ -165,7 +165,8 @@ class _PDFViewpageState extends State<PDFViewpage> {
     });
   }
 
-  sharefile() async {
-    await Share.shareFiles(['/storage/emulated/0/Download/sdff.pdf']);
+  sharefile(asd) async {
+    await Share.shareFiles(
+        ['/storage/emulated/0/Download/SBE/$asd/$filenameinurl.pdf']);
   }
 }

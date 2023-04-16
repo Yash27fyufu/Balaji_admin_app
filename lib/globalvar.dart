@@ -18,6 +18,7 @@ var alreadyimgcount = 0;
 var isloadin = false;
 var globalBucket = PageStorageBucket();
 var desc, price, pdfurl;
+var filenameinurl;
 
 List temptempforsearch = [], tempimgforsearch = [];
 

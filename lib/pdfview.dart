@@ -23,6 +23,16 @@ class PDFViewpage extends StatefulWidget {
 
 class _PDFViewpageState extends State<PDFViewpage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    filenameinurl = pdfurl.toString().substring(
+        pdfurl.toString().lastIndexOf("%2F") + 3,
+        pdfurl.toString().lastIndexOf("?alt="));
+    downloadfile();
+  }
+
+  @override
   Widget build(BuildContext context) {
     String pdfpagetitle = "View PDF";
 
@@ -50,7 +60,7 @@ class _PDFViewpageState extends State<PDFViewpage> {
                     iconSize: 20,
                     icon: const Icon(Icons.share),
                     onPressed: () {
-                      downloadfileandshare();
+                      sharefile();
                       // ...
                     },
                   ),
@@ -71,7 +81,7 @@ class _PDFViewpageState extends State<PDFViewpage> {
                       ))));
   }
 
-  downloadfileandshare() async {
+  downloadfile() async {
     //check for permission
     var status = await Permission.storage.status;
 
@@ -90,24 +100,39 @@ class _PDFViewpageState extends State<PDFViewpage> {
       isloadin = true;
     });
 
-// write file in local storage
-    var httpClient = new HttpClient();
-    var request = await httpClient.getUrl(Uri.parse(pdfurl));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    File file = File('/storage/emulated/0/Download/sdff.pdf');
-    await file.writeAsBytes(bytes);
+    var asd = pathxy.toString().replaceAll("/", "");
 
-    setState(() {
-      isloadin = false;
-    });
+    if (!await Directory('storage/emulated/0/Download/SBE/$asd').exists()) {
+      await Directory('storage/emulated/0/Download/SBE/$asd').create();
+      savethepdfindevice(asd);
+    } else {
+      setState(() {
+        isloadin = false;
+      });
+      print("object");
+      var filesinfolder =
+          await Directory('storage/emulated/0/Download/SBE/$asd')
+              .listSync(recursive: true, followLinks: false)[0]
+              .toString();
+
+      var filenameindevice = filesinfolder.substring(
+          filesinfolder.lastIndexOf("/") + 1, filesinfolder.length - 5);
+      print(filenameindevice);
+      print(filenameinurl);
+
+      if (filenameindevice != filenameinurl) {
+        print(filesinfolder.toString().substring(7, filesinfolder.length - 1));
+        deleteFile(File(
+            filesinfolder.toString().substring(7, filesinfolder.length - 1)));
+        savethepdfindevice(asd);
+      }
+    }
 
     //share file;
-    await Share.shareFiles(['/storage/emulated/0/Download/sdff.pdf']);
 
     // delete the locally stored file
 
-    deleteFile(File('/storage/emulated/0/Download/sdff.pdf'));
+    //deleteFile(File('/storage/emulated/0/Download/sdff.pdf'));
   }
 
 ////////   next time before updating do so that the pdf is stored in downloads in some folder to reduce bandwidth consumption in firebase
@@ -122,5 +147,25 @@ class _PDFViewpageState extends State<PDFViewpage> {
         await file.delete();
       }
     } catch (e) {}
+  }
+
+  savethepdfindevice(asd) async {
+    // write file in local storage
+    var httpClient = new HttpClient();
+    var request = await httpClient.getUrl(Uri.parse(pdfurl));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+
+    File file =
+        File('/storage/emulated/0/Download/SBE/$asd/$filenameinurl.pdf');
+    await file.writeAsBytes(bytes);
+
+    setState(() {
+      isloadin = false;
+    });
+  }
+
+  sharefile() async {
+    await Share.shareFiles(['/storage/emulated/0/Download/sdff.pdf']);
   }
 }

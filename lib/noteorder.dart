@@ -27,6 +27,7 @@ class _NoteOrderState extends State<NoteOrder> {
     return WillPopScope(
         onWillPop: () async {
           pathxy = "Home";
+          pgtitle = "Home";
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

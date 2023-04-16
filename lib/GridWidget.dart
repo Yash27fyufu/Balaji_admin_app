@@ -22,7 +22,7 @@ class GridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      key: PageStorageKey(5 ),
+      key: PageStorageKey(5),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 1,
@@ -31,7 +31,9 @@ class GridWidget extends StatelessWidget {
       itemCount: length,
       itemBuilder: (context, idx) {
         return InkWell(
+          onLongPress: () {},
           onTap: () {
+            issearchon = false;
             pgtitle = categories[idx];
 
             pathxy += "/" + categories[idx];
@@ -85,7 +87,6 @@ class GridWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      
                     ],
                   ),
                 )
@@ -115,7 +116,6 @@ class GridWidget extends StatelessWidget {
         temp.add(data["images"]);
       }
     });
-
 
     var _timer = new Timer(const Duration(milliseconds: 800), () {
       temp[2] = temp[2].toString().substring(

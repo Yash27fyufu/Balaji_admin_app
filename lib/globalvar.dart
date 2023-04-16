@@ -4,16 +4,23 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'mainpage.dart';
 
+var tempshopame, tempphonenum, temporder;
+
+var issearchon = false;
 final formkey = GlobalKey<FormState>();
 var pathxy = "Home";
 var pgtitle = "Home";
 var landingpg;
 var alreadyimgcount = 0;
-
+var isloadin = false;
 var globalBucket = PageStorageBucket();
 var desc, price, pdfurl;
+
+List temptempforsearch = [], tempimgforsearch = [];
+
 List img = [];
 List categories = [];
 List pickedimgList = [];
@@ -104,4 +111,19 @@ void getabtpgdetails() {
       phonenumbers.add(mx);
     }
   });
+}
+
+Future<bool> saveUserData(name, value) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  return await sharedPreferences.setString(name, value);
+}
+
+// Read Data
+Future getUserData() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  temporder = sharedPreferences.getString("order") as Future;
+  tempphonenum = sharedPreferences.getString("phonenum") as Future;
+  tempshopame = sharedPreferences.getString("shopname") as Future;
+  print(temporder);
 }

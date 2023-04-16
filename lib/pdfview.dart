@@ -58,53 +58,69 @@ class _PDFViewpageState extends State<PDFViewpage> {
               ],
             ),
             body: Container(
-                child: PDF().cachedFromUrl(
-              pdfurl,
-              maxAgeCacheObject: const Duration(days: 7), //duration of cache
-              placeholder: (progress) => Center(child: Text('$progress %')),
-              errorWidget: (error) => Center(child: Text(error.toString())),
-            ))));
+                child: isloadin
+                    ? Center(child: CircularProgressIndicator())
+                    : PDF().cachedFromUrl(
+                        pdfurl,
+                        maxAgeCacheObject:
+                            const Duration(days: 7), //duration of cache
+                        placeholder: (progress) =>
+                            Center(child: Text('$progress %')),
+                        errorWidget: (error) =>
+                            Center(child: Text(error.toString())),
+                      ))));
   }
-}
 
-downloadfileandshare() async {
-  //check for permission
-  var status = await Permission.storage.status;
+  downloadfileandshare() async {
+    //check for permission
+    var status = await Permission.storage.status;
 
-  if (status.isDenied) {
-    // You can request multiple permissions at once.
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-    ].request();
-  }
-  status = await Permission.storage.status;
-  if (status.isDenied) {
-    return;
-  }
+    if (status.isDenied) {
+      // You can request multiple permissions at once.
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.storage,
+      ].request();
+    }
+    status = await Permission.storage.status;
+    if (status.isDenied) {
+      return;
+    }
+
+    setState(() {
+      isloadin = true;
+    });
 
 // write file in local storage
-  var httpClient = new HttpClient();
-  var request = await httpClient.getUrl(Uri.parse(pdfurl));
-  var response = await request.close();
-  var bytes = await consolidateHttpClientResponseBytes(response);
-  File file = File('/storage/emulated/0/Download/sdff.pdf');
-  await file.writeAsBytes(bytes);
+    var httpClient = new HttpClient();
+    var request = await httpClient.getUrl(Uri.parse(pdfurl));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    File file = File('/storage/emulated/0/Download/sdff.pdf');
+    await file.writeAsBytes(bytes);
 
-  //share file;
-  await Share.shareFiles(['/storage/emulated/0/Download/sdff.pdf']);
+    setState(() {
+      isloadin = false;
+    });
 
-  // delete the locally stored file
+    //share file;
+    await Share.shareFiles(['/storage/emulated/0/Download/sdff.pdf']);
 
- deleteFile(File('/storage/emulated/0/Download/sdff.pdf'));
-}
+    // delete the locally stored file
 
-Future<void> deleteFile(File file) async {
-  try {
-    if (await file.exists()) {
-      await file.delete();
-    }
-  } catch (e) {
-    // Error in getting access to the file.
+    deleteFile(File('/storage/emulated/0/Download/sdff.pdf'));
+  }
 
+////////   next time before updating do so that the pdf is stored in downloads in some folder to reduce bandwidth consumption in firebase
+  ///
+  ///also while storing in firebase do so that the uploaded file is stored with datet and time so that whenever user requests for a pdf to view
+  ///
+  ///it will check fo rthe name in storage with the name in firebase if it matches then load form storage or else download form firebse delete the old one and continue..........
+
+  Future<void> deleteFile(File file) async {
+    try {
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {}
   }
 }

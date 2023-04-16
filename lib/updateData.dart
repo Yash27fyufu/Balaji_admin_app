@@ -377,7 +377,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
           : updatepriceController.text.toString().trim()
     });
 
-    vehicleStream = database.child(pathxy).onValue.listen((event) {
+    vehicleStream = database.child(pathxy).once().then((event) {
       datax = event.snapshot.value;
       if (datax != null) {
         database.child(newadd).set(datax);

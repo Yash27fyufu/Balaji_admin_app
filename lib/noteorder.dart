@@ -18,9 +18,9 @@ class NoteOrder extends StatefulWidget {
 }
 
 class _NoteOrderState extends State<NoteOrder> {
-  var shopname = TextEditingController();
-  var contactnumber = TextEditingController();
-  var writtenorder = TextEditingController();
+  var shopname = TextEditingController(text: tempshopame);
+  var contactnumber = TextEditingController(text: tempphonenum);
+  var writtenorder = TextEditingController(text: temporder);
 
   @override
   Widget build(BuildContext context) {
@@ -190,6 +190,10 @@ class _NoteOrderState extends State<NoteOrder> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
+                            // initialValue: tempshopame,
+                            onChanged: (value) => {
+                              tempshopame = value,
+                            },
                             controller: shopname,
                             decoration: const InputDecoration(
                                 alignLabelWithHint: true,
@@ -203,6 +207,9 @@ class _NoteOrderState extends State<NoteOrder> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
+                            onChanged: (value) => {
+                              tempphonenum = value,
+                            },
                             controller: contactnumber,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.allow(
@@ -220,10 +227,25 @@ class _NoteOrderState extends State<NoteOrder> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
+                            onChanged: (value) => {
+                              temporder = value,
+                            },
                             minLines: 5,
                             maxLines: 45,
+                            textAlign: TextAlign.justify,
                             controller: writtenorder,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 15), // add padding to adjust icon
+                                  child: IconButton(
+                                    iconSize: 40,
+                                    icon: const Icon(Icons.clear),
+                                    onPressed: () {
+                                      writtenorder.clear();
+                                    },
+                                  ),
+                                ),
                                 alignLabelWithHint: true,
                                 label: Text("Write your order here..."),
                                 border: OutlineInputBorder()),
@@ -260,6 +282,9 @@ class _NoteOrderState extends State<NoteOrder> {
   }
 
   sendmail() async {
+    saveUserData("shopname", shopname.text.toString());
+    saveUserData("phonenum", contactnumber.text.toString());
+    saveUserData("order", writtenorder.text.toString());
     String email = Uri.encodeComponent("shribalajienterprises2006@gmail.com");
     String subject = Uri.encodeComponent(shopname.text.toString().trim() == ""
         ? "Order"
@@ -273,6 +298,7 @@ class _NoteOrderState extends State<NoteOrder> {
     Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
     if (await launchUrl(mail)) {
       //email app opened
+
     } else {
       //email app is not opened
     }

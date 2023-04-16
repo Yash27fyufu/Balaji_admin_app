@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:sbe/pdfview.dart';
 import 'mainpage.dart';
+import 'noteorder.dart';
 import 'showFullImage.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -158,7 +159,13 @@ class _LandingPageState extends State<LandingPage> {
                           textAlign: TextAlign.center,
                         ),
                       ]),
-                      onPressed: () => {getFirebaseImageFolder()}),
+                      onPressed: () => {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const NoteOrder()),
+                            )
+                          }),
                 ),
                 Container(
                   child: desc == ""
@@ -339,7 +346,7 @@ class _LandingPageState extends State<LandingPage> {
 
   void check_for_pdf() async {
     try {
-      vehicleStream = database.child(pathxy).onValue.listen((event) async {
+      vehicleStream = database.child(pathxy).once().then((event) async {
         pdfurl = await event.snapshot.child("pdf").value;
 
         if (pdfurl != null) {

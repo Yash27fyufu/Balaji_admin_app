@@ -1,8 +1,10 @@
-// ignore_for_file: library_prefixes
+// ignore_for_file: library_prefixes, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -73,7 +75,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 ListTile(
                   visualDensity: VisualDensity(vertical: 0),
                   dense: true,
-                  tileColor: Colors.grey[350],
                   title: Text(
                     'Home',
                     style: TextStyle(
@@ -151,6 +152,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 ),
                 ListTile(
                   visualDensity: VisualDensity(vertical: 0),
+                  tileColor: Colors.grey[350],
                   dense: true,
                   title: Text(
                     "Contact Developer",
@@ -313,6 +315,18 @@ class _FeedbackPageState extends State<FeedbackPage> {
   }
 
   sendmail() async {
+    if (feedbacktext.text.toString().trim() == "showversion") {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+      var snackBar = SnackBar(
+        content: Text(packageInfo.toString()),
+        duration: Duration(seconds: 10),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
+
     String email = Uri.encodeComponent("everystint@gmail.com");
     String subject =
         Uri.encodeComponent("Provide feedback to the developer - Reg.");

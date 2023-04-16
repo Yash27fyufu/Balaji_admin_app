@@ -1,6 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
 
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:responsive_flutter/responsive_flutter.dart';
@@ -15,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'feedback.dart';
 import 'gridwidget.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'landingpage.dart';
 import 'updateappdialog.dart';
@@ -32,12 +35,19 @@ class Home extends StatefulWidget {
 class _MainPageState extends State<Home> {
   final database = FirebaseDatabase.instance.reference();
   bool isSelected = true;
+  final searchtext = TextEditingController();
+
+  var focussearchbar = FocusNode();
+
   @override
   void initState() {
     super.initState();
     _checkVersion2();
-
     activateListeners(pathxy);
+
+    if (!(tempshopame != "" || tempphonenum != "" || temporder != "")) {
+      getUserData();
+    }
   }
 
   @override
@@ -45,6 +55,23 @@ class _MainPageState extends State<Home> {
     return WillPopScope(
       onWillPop: () async {
         if (pathxy == "Home") {
+          if (issearchon) {
+            issearchon = false;
+            setState(() {
+              temp.clear();
+              img.clear();
+
+              for (int i = 0; i < temptempforsearch.length; i++) {
+                temp.add(temptempforsearch[i]);
+                img.add(tempimgforsearch[i]);
+              }
+              temptempforsearch.clear();
+              tempimgforsearch.clear();
+              searchtext.clear();
+              issearchon = false;
+            });
+            return false;
+          }
           return true;
         }
 
@@ -74,7 +101,8 @@ class _MainPageState extends State<Home> {
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: ResponsiveFlutter.of(context).fontSize(2.5),
+                            fontSize:
+                                ResponsiveFlutter.of(context).fontSize(2.5),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -95,6 +123,7 @@ class _MainPageState extends State<Home> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
                   pgtitle = "Home";
                   pathxy = "Home";
                   Navigator.pushReplacement(
@@ -111,31 +140,33 @@ class _MainPageState extends State<Home> {
                 dense: true,
                 title: Text(
                   'Order',
-                  style: TextStyle( 
+                  style: TextStyle(
                       color: Colors.black,
                       fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const NoteOrder()),
                   );
                 },
               ),
-             
               ListTile(
                 visualDensity: VisualDensity(vertical: 0),
                 dense: true,
-                
                 title: Text(
                   'About Us',
-                  style: TextStyle( 
+                  style: TextStyle(
                       color: Colors.black,
                       fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const AboutPage()),
@@ -156,6 +187,8 @@ class _MainPageState extends State<Home> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Tnc()),
@@ -173,6 +206,8 @@ class _MainPageState extends State<Home> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -183,30 +218,124 @@ class _MainPageState extends State<Home> {
             ],
           ),
         ),
-        appBar: AppBar(
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: landingpg == "yes"
-                  ? null
-                  : MaterialButton(
-                      minWidth: 100,
+        appBar: issearchon && landingpg != "yes"
+            ? AppBar(
+                title: Column(
+                  children: [
+                    Container(
+                      child: Stack(
+                        alignment: Alignment.centerRight,
+                        children: <Widget>[
+                          TextField(
+                            focusNode: focussearchbar,
+                            autofocus: true,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            controller: searchtext,
+                            cursorColor: Colors.black,
+                            onChanged: (value) {
+                              temp.clear();
+                              img.clear();
+
+                              for (int i = 0;
+                                  i < temptempforsearch.length;
+                                  i++) {
+                                if (value == '') {
+                                  for (int i = 0;
+                                      i < temptempforsearch.length;
+                                      i++) {
+                                    temp.add(temptempforsearch[i]);
+                                    img.add(tempimgforsearch[i]);
+                                  }
+                                  break;
+                                } else {
+                                  if (temptempforsearch[i]
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(
+                                          value.toString().toLowerCase())) {
+                                    temp.add(temptempforsearch[i]);
+                                    img.add(tempimgforsearch[i]);
+                                  }
+                                }
+                              }
+                              setState(() {});
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                            ),
+                            onPressed: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              setState(() {
+                                temp.clear();
+                                img.clear();
+
+                                for (int i = 0;
+                                    i < temptempforsearch.length;
+                                    i++) {
+                                  temp.add(temptempforsearch[i]);
+                                  img.add(tempimgforsearch[i]);
+                                }
+                                temptempforsearch.clear();
+                                tempimgforsearch.clear();
+                                searchtext.clear();
+                                issearchon = false;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : AppBar(
+                actions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: landingpg == "yes"
+                        ? null
+                        : MaterialButton(
+                            minWidth: 100,
+                            onPressed: () {
+                              if (mounted) {
+                                setState(() {
+                                  isSelected = !isSelected;
+                                });
+                              }
+                            },
+                          ),
+                  ),
+                  if (landingpg != "yes")
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                      ),
                       onPressed: () {
-                        if (mounted) {
-                          setState(() {
-                            isSelected = !isSelected;
-                          });
+                        // do something
+                        issearchon = true;
+                        tempimgforsearch.clear();
+                        temptempforsearch.clear();
+
+                        for (int i = 0; i < temp.length; i++) {
+                          temptempforsearch.add(temp[i]);
+                          tempimgforsearch.add(img[i]);
                         }
+                        setState(() {});
+                        focussearchbar.requestFocus();
                       },
                     ),
-            ),
-          ],
-          title: Text(
-            pgtitle,
-            style: TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
+                ],
+                title: Text(
+                  pgtitle,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
         body: categories.isEmpty
             ? const Align(
                 alignment: Alignment.center,
@@ -240,7 +369,7 @@ class _MainPageState extends State<Home> {
     categories.clear();
     img.clear();
 
-    vehicleStream = database.child(x).onValue.listen((event) async {
+    vehicleStream = database.child(x).once().then((event) async {
       dynamic data = event.snapshot.value;
 
       temp = [];
@@ -326,19 +455,29 @@ class _MainPageState extends State<Home> {
 
     final status = await newVersion.getVersionStatus();
 
-    if (status!.canUpdate) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return UpdateDialog(
-            allowDismissal: true,
-            description: status!.releaseNotes!,
-            version: status.storeVersion,
-            appLink: status.appStoreLink,
-          );
-        },
-      );
-    } 
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    var onlinepackageinfo;
+
+    vehicleStream = database.child("UpdateDetails").once().then((event) {
+      dynamic data = event.snapshot.value;
+      onlinepackageinfo = data["Packageversion"].toString();
+
+      if (status!.canUpdate ||
+          packageInfo.version.compareTo(onlinepackageinfo) == -1) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return UpdateDialog(
+              allowDismissal: true,
+              description: status.releaseNotes!,
+              version: status.storeVersion,
+              appLink: status.appStoreLink,
+            );
+          },
+        );
+      }
+    });
   }
 }
 

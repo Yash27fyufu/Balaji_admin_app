@@ -50,8 +50,6 @@ class _AboutPageState extends State<AboutPage> {
         position: const LatLng(13.089846455861958, 80.28667655856152)));
 
     getabtpgdetails();
-
-
   }
 
   @override
@@ -90,7 +88,8 @@ class _AboutPageState extends State<AboutPage> {
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: ResponsiveFlutter.of(context).fontSize(2.5),
+                            fontSize:
+                                ResponsiveFlutter.of(context).fontSize(2.5),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -102,7 +101,6 @@ class _AboutPageState extends State<AboutPage> {
               ListTile(
                 visualDensity: VisualDensity(vertical: 0),
                 dense: true,
-                tileColor: Colors.grey[350],
                 title: Text(
                   'Home',
                   style: TextStyle(
@@ -127,7 +125,7 @@ class _AboutPageState extends State<AboutPage> {
                 dense: true,
                 title: Text(
                   'Order',
-                  style: TextStyle( 
+                  style: TextStyle(
                       color: Colors.black,
                       fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
@@ -139,14 +137,13 @@ class _AboutPageState extends State<AboutPage> {
                   );
                 },
               ),
-             
               ListTile(
                 visualDensity: VisualDensity(vertical: 0),
+                tileColor: Colors.grey[350],
                 dense: true,
-                
                 title: Text(
                   'About Us',
-                  style: TextStyle( 
+                  style: TextStyle(
                       color: Colors.black,
                       fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
@@ -226,8 +223,7 @@ class _AboutPageState extends State<AboutPage> {
                       : CarouselSlider.builder(
                           itemCount: img.length,
                           options: CarouselOptions(
-                              height:
-                                  MediaQuery.of(context).size.height - 550,
+                              height: MediaQuery.of(context).size.height - 550,
                               enlargeCenterPage: true,
                               aspectRatio: 16 / 9,
                               autoPlay: true,
@@ -242,8 +238,8 @@ class _AboutPageState extends State<AboutPage> {
                               }),
                           itemBuilder: (context, index, realIndex) {
                             return InkWell(
-                              onTap: () => Navigator.of(context)
-                                  .push(MaterialPageRoute(
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ShowFullmages(
                                             url: img[index],
                                           ))),
@@ -393,40 +389,36 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
-  
-void getabtpgdetails() {
-  abtpgdetails.clear();
-  img.clear();
-  phonenumbers.clear();
+  void getabtpgdetails() {
+    abtpgdetails.clear();
+    img.clear();
+    phonenumbers.clear();
 
-  vehicleStream = database.child("AboutPageDetails").once().then((event) {
-    dynamic data = event.snapshot.value;
+    vehicleStream = database.child("AboutPageDetails").once().then((event) {
+      dynamic data = event.snapshot.value;
 
-    abtpgdetails.add(data["Address"]);
-    abtpgdetails.add(data["Mail"]);
-    abtpgdetails.add(data["Phonenumber"]);
+      abtpgdetails.add(data["Address"]);
+      abtpgdetails.add(data["Mail"]);
+      abtpgdetails.add(data["Phonenumber"]);
 
-    abtpgdetails.add(data["Images"]);
-    abtpgdetails.add(data["Name"]);
+      abtpgdetails.add(data["Images"]);
+      abtpgdetails.add(data["Name"]);
 
-    abtpgdetails[3] = abtpgdetails[3].toString().split(","); // split the urls
+      abtpgdetails[3] = abtpgdetails[3].toString().split(","); // split the urls
 
-    abtpgdetails[2] =
-        abtpgdetails[2].toString().split(","); // split the phone numbers
+      abtpgdetails[2] =
+          abtpgdetails[2].toString().split(","); // split the phone numbers
 
-    for (var mx in abtpgdetails[3]) {
-      if (mx == "") continue;
-      img.add(mx);
-    }
-    for (var mx in abtpgdetails[2]) {
-      if (mx == "") continue;
-      phonenumbers.add(mx);
-    }
+      for (var mx in abtpgdetails[3]) {
+        if (mx == "") continue;
+        img.add(mx);
+      }
+      for (var mx in abtpgdetails[2]) {
+        if (mx == "") continue;
+        phonenumbers.add(mx);
+      }
 
-    setState(() {
-      
+      setState(() {});
     });
-  });
-}
-
+  }
 }

@@ -13,16 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-
         title: 'Home',
         theme: ThemeData(
           fontFamily: "OpenSans",
           primarySwatch: Colors.amber,
         ),
-      home: Home(title: "Home"));
+        home: Home(title: "Home"));
   }
 }
 

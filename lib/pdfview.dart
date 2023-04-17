@@ -30,6 +30,9 @@ class _PDFViewpageState extends State<PDFViewpage> {
         pdfurl.toString().lastIndexOf("%2F") + 3,
         pdfurl.toString().lastIndexOf("?alt="));
     asd = pathxy.toString().replaceAll("/", "");
+    asd = asd.toString().replaceAll(" ", "");
+
+    isloadin = true;
 
     downloadfile();
   }
@@ -71,16 +74,19 @@ class _PDFViewpageState extends State<PDFViewpage> {
             ),
             body: Container(
                 child: isloadin
-                    ? Center(child: CircularProgressIndicator())
-                    : PDF().cachedFromUrl(
-                        pdfurl,
-                        maxAgeCacheObject:
-                            const Duration(days: 7), //duration of cache
-                        placeholder: (progress) =>
-                            Center(child: Text('$progress %')),
-                        errorWidget: (error) =>
-                            Center(child: Text(error.toString())),
-                      ))));
+                    ? const Center(child: CircularProgressIndicator())
+                    :
+                    //  PDF().cachedFromUrl(
+                    //     pdfurl,
+                    //     maxAgeCacheObject:
+                    //         const Duration(days: 7), //duration of cache
+                    //     placeholder: (progress) =>
+                    //         Center(child: Text('$progress %')),
+                    //     errorWidget: (error) =>
+                    //         Center(child: Text(error.toString())),
+                    //   )
+                    PDF().fromPath(
+                        '/storage/emulated/0/Download/SBE/$asd/$filenameinurl.pdf'))));
   }
 
   downloadfile() async {
@@ -101,6 +107,9 @@ class _PDFViewpageState extends State<PDFViewpage> {
     setState(() {
       isloadin = true;
     });
+    if (!await Directory('storage/emulated/0/Download/SBE').exists()) {
+      await Directory('storage/emulated/0/Download/SBE').create();
+    }
 
     if (!await Directory('storage/emulated/0/Download/SBE/$asd').exists()) {
       await Directory('storage/emulated/0/Download/SBE/$asd').create();
@@ -109,18 +118,22 @@ class _PDFViewpageState extends State<PDFViewpage> {
       setState(() {
         isloadin = false;
       });
-      print("object");
-      var filesinfolder =
-          await Directory('storage/emulated/0/Download/SBE/$asd')
-              .listSync(recursive: true, followLinks: false)[0]
-              .toString();
 
-      var filenameindevice = filesinfolder.substring(
-          filesinfolder.lastIndexOf("/") + 1, filesinfolder.length - 5);
-      print(filenameindevice);
-      print(filenameinurl);
+      var filesinfolder = "";
+      var filenameindevice = "";
+      if (await Directory('storage/emulated/0/Download/SBE/$asd')
+          .listSync(recursive: true, followLinks: false)
+          .isNotEmpty) {
+        filesinfolder = await Directory('storage/emulated/0/Download/SBE/$asd')
+            .listSync(recursive: true, followLinks: false)[0]
+            .toString();
+        filenameindevice = filesinfolder.substring(
+            filesinfolder.lastIndexOf("/") + 1, filesinfolder.length - 5);
+      }
 
-      if (filenameindevice != filenameinurl) {
+      if (filenameindevice.toString() == "") {
+        savethepdfindevice(asd);
+      } else if (filenameindevice != filenameinurl) {
         print(filesinfolder.toString().substring(7, filesinfolder.length - 1));
         deleteFile(File(
             filesinfolder.toString().substring(7, filesinfolder.length - 1)));

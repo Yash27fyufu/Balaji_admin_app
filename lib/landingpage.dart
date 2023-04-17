@@ -13,6 +13,7 @@ import 'showFullImage.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'globalvar.dart';
+import 'pdfview.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage({Key? key}) : super(key: key);

@@ -1,13 +1,16 @@
+// ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, prefer_collection_literals, unused_import, depend_on_referenced_packages
+
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'mainpage.dart';
 
-var tempshopame, tempphonenum, temporder;
+var tempgstnum, tempaddress, tempshopame, tempphonenum, temporder;
 
 var issearchon = false;
 final formkey = GlobalKey<FormState>();
@@ -36,7 +39,7 @@ var imgstorage = FirebaseStorage.instance;
 var pp;
 var abtpgdetails = [];
 List phonenumbers = [];
-var smap = new Map<String, String>();
+var smap = Map<String, String>();
 var smapkeys = [];
 var smapval = [];
 var storageImages = [];
@@ -114,17 +117,25 @@ void getabtpgdetails() {
   });
 }
 
-Future<bool> saveUserData(name, value) async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  return await sharedPreferences.setString(name, value);
-}
+readalldata() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.getString("shopname") != null) {
+    tempshopame = prefs.getString("shopname");
+  }
 
-// Read Data
-Future getUserData() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  if (prefs.getString("address") != null) {
+    tempaddress = prefs.getString("address");
+  }
 
-  temporder = sharedPreferences.getString("order") as Future;
-  tempphonenum = sharedPreferences.getString("phonenum") as Future;
-  tempshopame = sharedPreferences.getString("shopname") as Future;
-  print(temporder);
+  if (prefs.getString("phonenum") != null) {
+    tempphonenum = prefs.getString("phonenum");
+  }
+
+  if (prefs.getString("gstnum") != null) {
+    tempgstnum = prefs.getString("gstnum");
+  }
+
+  if (prefs.getString("order") != null) {
+    temporder = prefs.getString("order");
+  }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: depend_on_referenced_packages, prefer_const_constructors, prefer_contains, prefer_typing_uninitialized_variables, await_only_futures, avoid_unnecessary_containers, deprecated_member_use, unnecessary_import
 
 import 'dart:async';
 
@@ -44,10 +44,6 @@ class _MainPageState extends State<Home> {
     super.initState();
     _checkVersion2();
     activateListeners(pathxy);
-
-    if (!(tempshopame != "" || tempphonenum != "" || temporder != "")) {
-      getUserData();
-    }
   }
 
   @override
@@ -147,6 +143,8 @@ class _MainPageState extends State<Home> {
                 ),
                 onTap: () {
                   issearchon = false;
+
+                  readalldata();
 
                   Navigator.pushReplacement(
                     context,

@@ -1,4 +1,4 @@
-// ignore_for_file: library_prefixes, depend_on_referenced_packages
+// ignore_for_file: library_prefixes, depend_on_referenced_packages, avoid_unnecessary_containers, unnecessary_string_escapes, deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,7 +73,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   ),
                 ),
                 ListTile(
-                  visualDensity: VisualDensity(vertical: 0),
+                  visualDensity: const VisualDensity(vertical: 0),
                   dense: true,
                   title: Text(
                     'Home',
@@ -95,7 +95,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   },
                 ),
                 ListTile(
-                  visualDensity: VisualDensity(vertical: 0),
+                  visualDensity: const VisualDensity(vertical: 0),
                   dense: true,
                   title: Text(
                     'Order',
@@ -105,6 +105,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
+                    readalldata();
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -113,7 +115,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   },
                 ),
                 ListTile(
-                  visualDensity: VisualDensity(vertical: 0),
+                  visualDensity: const VisualDensity(vertical: 0),
                   dense: true,
                   title: Text(
                     'About Us',
@@ -134,7 +136,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   height: MediaQuery.of(context).size.height - 350,
                 ),
                 ListTile(
-                  visualDensity: VisualDensity(vertical: 0),
+                  visualDensity: const VisualDensity(vertical: 0),
                   dense: true,
                   title: Text(
                     "Terms of Use",
@@ -151,7 +153,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   },
                 ),
                 ListTile(
-                  visualDensity: VisualDensity(vertical: 0),
+                  visualDensity: const VisualDensity(vertical: 0),
                   tileColor: Colors.grey[350],
                   dense: true,
                   title: Text(
@@ -320,7 +322,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
       var snackBar = SnackBar(
         content: Text(packageInfo.toString()),
-        duration: Duration(seconds: 10),
+        duration: const Duration(seconds: 10),
       );
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);

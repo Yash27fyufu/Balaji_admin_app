@@ -1,10 +1,16 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'aboutPage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'globalvar.dart';
 import 'feedback.dart';
 import 'mainpage.dart';
@@ -18,8 +24,18 @@ class NoteOrder extends StatefulWidget {
 }
 
 class _NoteOrderState extends State<NoteOrder> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //readfiles();
+  }
+
   var shopname = TextEditingController(text: tempshopame);
   var contactnumber = TextEditingController(text: tempphonenum);
+  var gstnumber = TextEditingController(text: tempgstnum);
+  var address = TextEditingController(text: tempaddress);
   var writtenorder = TextEditingController(text: temporder);
 
   @override
@@ -104,6 +120,8 @@ class _NoteOrderState extends State<NoteOrder> {
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
+                    readalldata();
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -192,8 +210,13 @@ class _NoteOrderState extends State<NoteOrder> {
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
                             // initialValue: tempshopame,
-                            onChanged: (value) => {
-                              tempshopame = value,
+                            onChanged: (value) async {
+                              // var dir =
+                              //     await getApplicationDocumentsDirectory();
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("shopname", value);
+                              // writeshopname(dir);
                             },
                             controller: shopname,
                             decoration: const InputDecoration(
@@ -208,8 +231,13 @@ class _NoteOrderState extends State<NoteOrder> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
-                            onChanged: (value) => {
-                              tempphonenum = value,
+                            onChanged: (value) async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("phonenum", value);
+                              // var dir =
+                              //     await getApplicationDocumentsDirectory();
+                              // writephonenum(dir);
                             },
                             controller: contactnumber,
                             inputFormatters: <TextInputFormatter>[
@@ -228,11 +256,63 @@ class _NoteOrderState extends State<NoteOrder> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
-                            onChanged: (value) => {
-                              temporder = value,
+                            onChanged: (value) async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("gstnum", value);
+                              // var dir =
+                              //     await getApplicationDocumentsDirectory();
+
+                              // writegst(dir);
+                            },
+                            controller: gstnumber,
+                            decoration: const InputDecoration(
+                                alignLabelWithHint: true,
+                                label: Text("GST Number"),
+                                border: OutlineInputBorder()),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: TextFormField(
+                            onChanged: (value) async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("address", value);
+                              // var dir =
+                              //     await getApplicationDocumentsDirectory();
+
+                              // writeaddress(dir);
+                            },
+                            minLines: 1,
+                            maxLines: 5,
+                            controller: address,
+                            decoration: const InputDecoration(
+                                alignLabelWithHint: true,
+                                label: Text("Address"),
+                                border: OutlineInputBorder()),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: TextFormField(
+                            onChanged: (value) async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("order", value);
+                              // var dir =
+                              //     await getApplicationDocumentsDirectory();
+
+                              // writeorder(dir);
                             },
                             minLines: 5,
-                            maxLines: 45,
+                            maxLines: 15,
                             textAlign: TextAlign.justify,
                             controller: writtenorder,
                             decoration: InputDecoration(
@@ -241,9 +321,17 @@ class _NoteOrderState extends State<NoteOrder> {
                                       top: 15), // add padding to adjust icon
                                   child: IconButton(
                                     iconSize: 40,
-                                    icon: const Icon(Icons.clear),
-                                    onPressed: () {
+                                    icon: const Icon(Icons.close),
+                                    onPressed: () async {
                                       writtenorder.clear();
+
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setString("order", "");
+                                      // var dir =
+                                      //     await getApplicationDocumentsDirectory();
+
+                                      // writeorder(dir);
                                     },
                                   ),
                                 ),
@@ -283,9 +371,8 @@ class _NoteOrderState extends State<NoteOrder> {
   }
 
   sendmail() async {
-    saveUserData("shopname", shopname.text.toString());
-    saveUserData("phonenum", contactnumber.text.toString());
-    saveUserData("order", writtenorder.text.toString());
+    //writedata();
+
     String email = Uri.encodeComponent("shribalajienterprises2006@gmail.com");
     String subject = Uri.encodeComponent(shopname.text.toString().trim() == ""
         ? "Order"
@@ -303,5 +390,49 @@ class _NoteOrderState extends State<NoteOrder> {
     } else {
       //email app is not opened
     }
+  }
+
+  Future<File> writedata() async {
+    var dir = await getApplicationDocumentsDirectory();
+
+    writeshopname(dir);
+    writeaddress(dir);
+    writegst(dir);
+    writephonenum(dir);
+    return writeorder(dir);
+  }
+
+  writeshopname(dir) {
+    print("hiiiiii");
+    var file = File(dir.path! + "/shop.txt");
+    file.writeAsString(shopname.text);
+  }
+
+  writeaddress(dir) {
+    print("hiisssssiiii");
+
+    var file = File(dir.path! + "/address.txt");
+    file.writeAsString(address.text);
+  }
+
+  writegst(dir) {
+    print("hissssssssssccccccccccciiiii");
+
+    var file = File(dir.path! + "/gst.txt");
+    file.writeAsString(gstnumber.text);
+  }
+
+  writephonenum(dir) {
+    print("hiiiivvvvvvii");
+
+    var file = File(dir.path! + "/number.txt");
+    file.writeAsString(contactnumber.text);
+  }
+
+  writeorder(dir) {
+    print("hiibnnnnnnnnnnnniiii");
+
+    var file = File(dir.path! + "/order.txt");
+    file.writeAsString(writtenorder.text);
   }
 }

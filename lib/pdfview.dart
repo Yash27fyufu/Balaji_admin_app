@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_local_variable, await_only_futures, unnecessary_new, deprecated_member_use, depend_on_referenced_packages
+
 import 'dart:io';
 import 'dart:math';
 
@@ -85,7 +87,7 @@ class _PDFViewpageState extends State<PDFViewpage> {
                     //     errorWidget: (error) =>
                     //         Center(child: Text(error.toString())),
                     //   )
-                    PDF().fromPath(
+                    const PDF().fromPath(
                         '/storage/emulated/0/Download/SBE/$asd/$filenameinurl.pdf'))));
   }
 
@@ -134,25 +136,14 @@ class _PDFViewpageState extends State<PDFViewpage> {
       if (filenameindevice.toString() == "") {
         savethepdfindevice(asd);
       } else if (filenameindevice != filenameinurl) {
-        print(filesinfolder.toString().substring(7, filesinfolder.length - 1));
         deleteFile(File(
             filesinfolder.toString().substring(7, filesinfolder.length - 1)));
         savethepdfindevice(asd);
       }
     }
 
-    //share file;
-
-    // delete the locally stored file
-
     //deleteFile(File('/storage/emulated/0/Download/sdff.pdf'));
   }
-
-////////   next time before updating do so that the pdf is stored in downloads in some folder to reduce bandwidth consumption in firebase
-  ///
-  ///also while storing in firebase do so that the uploaded file is stored with datet and time so that whenever user requests for a pdf to view
-  ///
-  ///it will check fo rthe name in storage with the name in firebase if it matches then load form storage or else download form firebse delete the old one and continue..........
 
   Future<void> deleteFile(File file) async {
     try {

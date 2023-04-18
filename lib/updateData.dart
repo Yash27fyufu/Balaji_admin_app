@@ -410,6 +410,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
     pgtitle = "Home";
 
+    // ignore: unnecessary_new
     var _timer = new Timer(const Duration(milliseconds: 1000), () {
       Navigator.pushReplacement(
         context,

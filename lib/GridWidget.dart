@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, unnecessary_new, no_leading_underscores_for_local_identifiers, prefer_interpolation_to_compose_strings, file_names
+
 import 'dart:async';
 
 import 'globalvar.dart';
@@ -22,7 +24,7 @@ class GridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      key: PageStorageKey(5),
+      key: const PageStorageKey(5),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 1,

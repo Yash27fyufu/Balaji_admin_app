@@ -59,7 +59,7 @@ class Tnc extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    visualDensity: VisualDensity(vertical: 0),
+                    visualDensity: const VisualDensity(vertical: 0),
                     dense: true,
                     title: Text(
                       'Home',
@@ -81,7 +81,7 @@ class Tnc extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    visualDensity: VisualDensity(vertical: 0),
+                    visualDensity: const VisualDensity(vertical: 0),
                     dense: true,
                     title: Text(
                       'Order',
@@ -91,6 +91,8 @@ class Tnc extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
+                      readalldata();
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -99,7 +101,7 @@ class Tnc extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    visualDensity: VisualDensity(vertical: 0),
+                    visualDensity: const VisualDensity(vertical: 0),
                     dense: true,
                     title: Text(
                       'About Us',
@@ -120,7 +122,7 @@ class Tnc extends StatelessWidget {
                     height: MediaQuery.of(context).size.height - 350,
                   ),
                   ListTile(
-                    visualDensity: VisualDensity(vertical: 0),
+                    visualDensity: const VisualDensity(vertical: 0),
                     tileColor: Colors.grey[350],
                     dense: true,
                     title: Text(
@@ -138,7 +140,7 @@ class Tnc extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    visualDensity: VisualDensity(vertical: 0),
+                    visualDensity: const VisualDensity(vertical: 0),
                     dense: true,
                     title: Text(
                       "Contact Developer",

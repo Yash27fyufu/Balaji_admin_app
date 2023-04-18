@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, deprecated_member_use
 
 import 'dart:io';
 
@@ -13,10 +13,9 @@ import 'showFullImage.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'globalvar.dart';
-import 'pdfview.dart';
 
 class LandingPage extends StatefulWidget {
-  LandingPage({Key? key}) : super(key: key);
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -33,8 +32,6 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     getabtpgdetails();
-
-    print(pathxy);
 
     pdfflag = false;
     check_for_pdf();
@@ -160,13 +157,14 @@ class _LandingPageState extends State<LandingPage> {
                           textAlign: TextAlign.center,
                         ),
                       ]),
-                      onPressed: () => {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const NoteOrder()),
-                            )
-                          }),
+                      onPressed: () {
+                        readalldata();
+
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const NoteOrder()));
+                      }),
                 ),
                 Container(
                   child: desc == ""
@@ -348,7 +346,7 @@ class _LandingPageState extends State<LandingPage> {
   void check_for_pdf() async {
     try {
       vehicleStream = database.child(pathxy).once().then((event) async {
-        pdfurl = await event.snapshot.child("pdf").value;
+        pdfurl = event.snapshot.child("pdf").value;
 
         if (pdfurl != null) {
           pdfflag = true;

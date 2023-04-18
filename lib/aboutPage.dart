@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_collection_literals
+// ignore_for_file: prefer_collection_literals, import_of_legacy_library_into_null_safe, library_prefixes, prefer_final_fields, file_names, deprecated_member_use
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
@@ -99,7 +99,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
+                visualDensity: const VisualDensity(vertical: 0),
                 dense: true,
                 title: Text(
                   'Home',
@@ -121,7 +121,7 @@ class _AboutPageState extends State<AboutPage> {
                 },
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
+                visualDensity: const VisualDensity(vertical: 0),
                 dense: true,
                 title: Text(
                   'Order',
@@ -131,6 +131,8 @@ class _AboutPageState extends State<AboutPage> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  readalldata();
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const NoteOrder()),
@@ -138,7 +140,7 @@ class _AboutPageState extends State<AboutPage> {
                 },
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
+                visualDensity: const VisualDensity(vertical: 0),
                 tileColor: Colors.grey[350],
                 dense: true,
                 title: Text(
@@ -159,7 +161,7 @@ class _AboutPageState extends State<AboutPage> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
+                visualDensity: const VisualDensity(vertical: 0),
                 dense: true,
                 title: Text(
                   "Terms of Use",
@@ -176,7 +178,7 @@ class _AboutPageState extends State<AboutPage> {
                 },
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
+                visualDensity: const VisualDensity(vertical: 0),
                 dense: true,
                 title: Text(
                   "Contact Developer",

@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, file_names, no_leading_underscores_for_local_identifiers
+// ignore_for_file: deprecated_member_use, file_names, no_leading_underscores_for_local_identifiers, unnecessary_string_escapes, prefer_interpolation_to_compose_strings, unnecessary_null_comparison
 
 import 'dart:async';
 import 'dart:io';
@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'globalvar.dart';
 
 class AddDetails extends StatefulWidget {
-  AddDetails({Key? key}) : super(key: key);
+  const AddDetails({Key? key}) : super(key: key);
 
   @override
   State<AddDetails> createState() => _AddDetailsState();
@@ -49,9 +49,9 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    final isremoved_from_bg = state == AppLifecycleState.detached;
+    final isremovedFromBg = state == AppLifecycleState.detached;
 
-    if (isremoved_from_bg) {
+    if (isremovedFromBg) {
       for (var df in files) {
         FirebaseStorage.instance.refFromURL(df).delete();
       }
@@ -130,7 +130,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                   //       ]),
                   //       onPressed: () => {uploadpdffiles()}),
                   // ),
-                 
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -353,7 +353,9 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       });
 
       // setState(() => pickedimgList.add(file));
-    } on PlatformException catch (e) {}
+    } on PlatformException catch (e) {
+      return e;
+    }
   }
 
   Future<void> insertData() async {
@@ -415,6 +417,4 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
   }
 
   String sd = "";
-
- 
 }

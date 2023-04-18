@@ -291,21 +291,6 @@ class _MainPageState extends State<Home> {
               )
             : AppBar(
                 actions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: landingpg == "yes"
-                        ? null
-                        : MaterialButton(
-                            minWidth: 100,
-                            onPressed: () {
-                              if (mounted) {
-                                setState(() {
-                                  isSelected = !isSelected;
-                                });
-                              }
-                            },
-                          ),
-                  ),
                   if (landingpg != "yes")
                     IconButton(
                       icon: const Icon(

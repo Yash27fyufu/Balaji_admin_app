@@ -1,16 +1,24 @@
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, prefer_collection_literals, unused_import, depend_on_referenced_packages
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sbe/feedback.dart';
+import 'package:sbe/tnc.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'mainpage.dart';
 
-var tempgstnum, tempaddress, tempshopame, tempphonenum, temporder;
+var tempgstnum = "",
+    tempaddress = "",
+    templorry = "",
+    tempshopame = "",
+    tempphonenum = "",
+    temporder = "";
 
 var issearchon = false;
 final formkey = GlobalKey<FormState>();
@@ -19,6 +27,7 @@ var pgtitle = "Home";
 var landingpg;
 var alreadyimgcount = 0;
 var isloadin = false;
+var deletingdata = false;
 var globalBucket = PageStorageBucket();
 var desc, price, pdfurl;
 var filenameinurl;
@@ -120,22 +129,34 @@ void getabtpgdetails() {
 readalldata() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString("shopname") != null) {
-    tempshopame = prefs.getString("shopname");
+    tempshopame = prefs.getString("shopname")!;
   }
 
   if (prefs.getString("address") != null) {
-    tempaddress = prefs.getString("address");
+    tempaddress = prefs.getString("address")!;
+  }
+
+  if (prefs.getString("lorry") != null) {
+    templorry = prefs.getString("lorry")!;
   }
 
   if (prefs.getString("phonenum") != null) {
-    tempphonenum = prefs.getString("phonenum");
+    tempphonenum = prefs.getString("phonenum")!;
   }
 
   if (prefs.getString("gstnum") != null) {
-    tempgstnum = prefs.getString("gstnum");
+    tempgstnum = prefs.getString("gstnum")!;
   }
 
   if (prefs.getString("order") != null) {
-    temporder = prefs.getString("order");
+    temporder = prefs.getString("order")!;
   }
+}
+
+Future<void> deleteFile(File file) async {
+  try {
+    if (await file.exists()) {
+      await file.delete();
+    }
+  } catch (e) {}
 }

@@ -148,7 +148,7 @@ class _MainPageState extends State<Home> {
 
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const NoteOrder()),
+                    MaterialPageRoute(builder: (context) => NoteOrder()),
                   );
                 },
               ),

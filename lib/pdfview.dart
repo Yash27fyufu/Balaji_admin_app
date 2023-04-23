@@ -145,14 +145,6 @@ class _PDFViewpageState extends State<PDFViewpage> {
     //deleteFile(File('/storage/emulated/0/Download/sdff.pdf'));
   }
 
-  Future<void> deleteFile(File file) async {
-    try {
-      if (await file.exists()) {
-        await file.delete();
-      }
-    } catch (e) {}
-  }
-
   savethepdfindevice(asd) async {
     // write file in local storage
     var httpClient = new HttpClient();

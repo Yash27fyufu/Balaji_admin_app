@@ -135,7 +135,7 @@ class _AboutPageState extends State<AboutPage> {
 
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const NoteOrder()),
+                    MaterialPageRoute(builder: (context) => NoteOrder()),
                   );
                 },
               ),

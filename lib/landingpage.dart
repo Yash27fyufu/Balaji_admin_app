@@ -163,7 +163,7 @@ class _LandingPageState extends State<LandingPage> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const NoteOrder()));
+                                builder: (context) => NoteOrder()));
                       }),
                 ),
                 Container(

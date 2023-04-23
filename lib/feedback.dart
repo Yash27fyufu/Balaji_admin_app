@@ -1,5 +1,7 @@
 // ignore_for_file: library_prefixes, depend_on_referenced_packages, avoid_unnecessary_containers, unnecessary_string_escapes, deprecated_member_use, use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -109,8 +111,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const NoteOrder()),
+                      MaterialPageRoute(builder: (context) => NoteOrder()),
                     );
                   },
                 ),
@@ -183,137 +184,230 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          body: Container(
-            child: SingleChildScrollView(
-              child: Container(
-                  color: Colors.white,
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    padding: const EdgeInsets.only(top: 25),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            minLines: 5,
-                            maxLines: 15,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp(
-                                  "[0-9a-zA-Z .,\' \( \) \[ \\] \\n \{ \}]")),
-                            ],
-                            controller: feedbacktext,
-                            decoration: const InputDecoration(
-                                alignLabelWithHint: true,
-                                label: Text("Provide your feedback"),
-                                border: OutlineInputBorder()),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(
-                                  200, 40) // put the width and height you want
+          body: deletingdata
+              ? const Center(child: CircularProgressIndicator())
+              : Container(
+                  child: SingleChildScrollView(
+                    child: Container(
+                        color: Colors.white,
+                        child: Container(
+                          alignment: Alignment.topCenter,
+                          padding: const EdgeInsets.only(top: 25),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: TextFormField(
+                                  minLines: 5,
+                                  maxLines: 15,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(RegExp(
+                                        "[0-9a-zA-Z .,\' \( \) \[ \\] \\n \{ \}]")),
+                                  ],
+                                  controller: feedbacktext,
+                                  decoration: const InputDecoration(
+                                      alignLabelWithHint: true,
+                                      label: Text("Provide your feedback"),
+                                      border: OutlineInputBorder()),
+                                ),
                               ),
-                          child: Wrap(children: const <Widget>[
-                            //place Icon here
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    fixedSize: const Size(200,
+                                        40) // put the width and height you want
+                                    ),
+                                child: Wrap(children: const <Widget>[
+                                  //place Icon here
 
-                            Text(
-                              "Send mail",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ]),
-                          onPressed: () => sendmail(),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          height: 40,
-                          padding: const EdgeInsets.only(left: 20),
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: const Text(
-                            'Connect us : ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 20),
-                          height: 30,
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: GestureDetector(
-                            onTap: () {
-                              UrlLauncher.launch("tel://+91 91500 66366");
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.call,
-                                  color: Colors.grey[800],
-                                  size: 30.0,
-                                ),
-                                Text(
-                                  "+91 91500 66366",
+                                  Text(
+                                    "Send mail",
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ]),
+                                onPressed: () => sendmail(),
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                height: 55,
+                                padding: const EdgeInsets.only(left: 20),
+                                width: MediaQuery.of(context).size.width,
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  'Having problem with opening the pdf ?',
                                   textAlign: TextAlign.center,
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      color: Colors.grey[800],
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 20),
-                          height: 50,
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: GestureDetector(
-                            onTap: () {
-                              launchUrl(
-                                  Uri.parse("mailto:everystint@gmail.com"));
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.mail,
-                                  color: Colors.grey[800],
-                                  size: 30.0,
-                                ),
-                                Text(
-                                  " everystint@gmail.com",
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                      color: Colors.grey[800],
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    deletsbefolder(context);
+                                  },
+                                  child: Text("Clear PDF Data")),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                height: 40,
+                                padding: const EdgeInsets.only(left: 20),
+                                width: MediaQuery.of(context).size.width,
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  'Connect us : ',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(left: 20),
+                                height: 30,
+                                width: MediaQuery.of(context).size.width,
+                                alignment: Alignment.topLeft,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    UrlLauncher.launch("tel://+91 91500 66366");
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.call,
+                                        color: Colors.grey[800],
+                                        size: 30.0,
+                                      ),
+                                      Text(
+                                        "+91 91500 66366",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                            color: Colors.grey[800],
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(left: 20),
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                alignment: Alignment.topLeft,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    launchUrl(Uri.parse(
+                                        "mailto:everystint@gmail.com"));
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.mail,
+                                        color: Colors.grey[800],
+                                        size: 30.0,
+                                      ),
+                                      Text(
+                                        " everystint@gmail.com",
+                                        textAlign: TextAlign.left,
+                                        style: GoogleFonts.openSans(
+                                          textStyle: TextStyle(
+                                            color: Colors.grey[800],
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
-          ),
+                        )),
+                  ),
+                ),
         ));
+  }
+
+  deletsbefolder(context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Clear data "),
+            content:
+                const Text("Are you sure you want to delete all app data?"),
+            actions: [
+              RawMaterialButton(
+                onPressed: () {
+                  print("hiiiiii");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedbackPage()),
+                  );
+                },
+                child: const Text("No"),
+              ),
+              RawMaterialButton(
+                  onPressed: () async {
+                    try {
+                      setState(() {
+                        deletingdata = true;
+                      });
+                      var dirPath = '/storage/emulated/0/Download/SBE';
+                      final dir = Directory(dirPath);
+
+                      if (await dir.exists()) {
+                        dir.deleteSync(recursive: true);
+                      }
+
+                      var snackBar = SnackBar(
+                        content: Text("All data cleared"),
+                        duration: Duration(milliseconds: 500),
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } catch (error) {
+                      setState(() {
+                        deletingdata = false;
+                      });
+                      var snackBar = SnackBar(
+                        content: Text(error.toString()),
+                        duration: Duration(milliseconds: 500),
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } finally {
+                      setState(() {
+                        deletingdata = false;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FeedbackPage()),
+                      );
+                    }
+                  },
+                  child: const Text("Yes "))
+            ],
+          );
+        });
   }
 
   sendmail() async {

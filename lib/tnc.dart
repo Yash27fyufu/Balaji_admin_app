@@ -95,8 +95,7 @@ class Tnc extends StatelessWidget {
 
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const NoteOrder()),
+                        MaterialPageRoute(builder: (context) => NoteOrder()),
                       );
                     },
                   ),

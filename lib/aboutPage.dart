@@ -1,9 +1,13 @@
+// ignore_for_file: prefer_collection_literals, import_of_legacy_library_into_null_safe, library_prefixes, prefer_final_fields, file_names, deprecated_member_use
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'feedback.dart';
 import 'globalvar.dart';
+import 'noteorder.dart';
 import 'showFullImage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,41 +52,6 @@ class _AboutPageState extends State<AboutPage> {
     getabtpgdetails();
   }
 
-  void getabtpgdetails() {
-    img.clear();
-    phonenumbers.clear();
-    abtpgdetails.clear();
-
-    abtpgdetails.clear();
-    vehicleStream = database.child("AboutPageDetails").once().then((event) {
-      dynamic data = event.snapshot.value;
-
-      abtpgdetails.add(data["Address"]);
-      abtpgdetails.add(data["Mail"]);
-      abtpgdetails.add(data["Phonenumber"]);
-
-      abtpgdetails.add(data["Images"]);
-      abtpgdetails.add(data["Name"]);
-
-      abtpgdetails[3] = abtpgdetails[3].toString().split(","); // split the urls
-
-      abtpgdetails[2] =
-          abtpgdetails[2].toString().split(","); // split the phone numbers
-
-      for (var mx in abtpgdetails[3]) {
-        if (mx == "") continue;
-        img.add(mx);
-      }
-      for (var mx in abtpgdetails[2]) {
-        if (mx == "") continue;
-        phonenumbers.add(mx);
-      }
-      setState(() {
-        
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -108,32 +77,35 @@ class _AboutPageState extends State<AboutPage> {
                   decoration: const BoxDecoration(
                     color: Colors.amber,
                   ),
+                  margin: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Wrap(children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "SHRI BALAJI ENTERPRISES",
+                        'SHRI BALAJI ENTERPRISES',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          textStyle: const TextStyle(
+                          textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize:
+                                ResponsiveFlutter.of(context).fontSize(2.5),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   ]),
-                  margin: const EdgeInsets.all(0.0),
-                  padding: const EdgeInsets.all(10.0),
                 ),
               ),
               ListTile(
-                title: const Text(
+                visualDensity: const VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
                   'Home',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -149,12 +121,33 @@ class _AboutPageState extends State<AboutPage> {
                 },
               ),
               ListTile(
+                visualDensity: const VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
+                  'Order',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  readalldata();
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => NoteOrder()),
+                  );
+                },
+              ),
+              ListTile(
+                visualDensity: const VisualDensity(vertical: 0),
                 tileColor: Colors.grey[350],
-                title: const Text(
+                dense: true,
+                title: Text(
                   'About Us',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -168,11 +161,13 @@ class _AboutPageState extends State<AboutPage> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
-                title: const Text(
+                visualDensity: const VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
                   "Terms of Use",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -183,11 +178,13 @@ class _AboutPageState extends State<AboutPage> {
                 },
               ),
               ListTile(
-                title: const Text(
+                visualDensity: const VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
                   "Contact Developer",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -203,181 +200,178 @@ class _AboutPageState extends State<AboutPage> {
         ),
         appBar: AppBar(title: const Text("About Us ")),
         body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    'A2Z PLUMBING SOLUTIONS',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.openSans(
-                      textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'A2Z PLUMBING SOLUTIONS',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.openSans(
+                    textStyle: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                Container(
-                  height: 250,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: img.isEmpty
-                        ? null
-                        : CarouselSlider.builder(
-                            itemCount: img.length,
-                            options: CarouselOptions(
-                                height:
-                                    MediaQuery.of(context).size.height - 550,
-                                enlargeCenterPage: true,
-                                aspectRatio: 16 / 9,
-                                autoPlay: true,
-                                autoPlayCurve: Curves.fastOutSlowIn,
-                                enableInfiniteScroll:
-                                    img.length == 1 ? false : true,
-                                autoPlayAnimationDuration:
-                                    const Duration(milliseconds: 800),
-                                viewportFraction: 0.8,
-                                onPageChanged: (index, reason) {
-                                  setState(() => activeIndex = index);
-                                }),
-                            itemBuilder: (context, index, realIndex) {
-                              return InkWell(
-                                onTap: () => Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                        builder: (context) => ShowFullmages(
-                                              url: img[index],
-                                            ))),
-                                child: Container(
-                                  margin: const EdgeInsets.all(5.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    image: DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: NetworkImage(img[index]),
+              ),
+              SizedBox(
+                height: 250,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 0),
+                  child: img.isEmpty
+                      ? null
+                      : CarouselSlider.builder(
+                          itemCount: img.length,
+                          options: CarouselOptions(
+                              height: MediaQuery.of(context).size.height - 550,
+                              enlargeCenterPage: true,
+                              aspectRatio: 16 / 9,
+                              autoPlay: true,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enableInfiniteScroll:
+                                  img.length == 1 ? false : true,
+                              autoPlayAnimationDuration:
+                                  const Duration(milliseconds: 800),
+                              viewportFraction: 0.8,
+                              onPageChanged: (index, reason) {
+                                setState(() => activeIndex = index);
+                              }),
+                          itemBuilder: (context, index, realIndex) {
+                            return InkWell(
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ShowFullmages(
+                                            url: img[index],
+                                          ))),
+                              child: Container(
+                                margin: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: NetworkImage(img[index]),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: abtpgdetails.isEmpty
+                    ? null
+                    : Column(
+                        children: [
+                          Text(
+                            abtpgdetails[4].toString(),
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            abtpgdetails[0].toString(),
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.only(
+                                  left: 10, top: 10, bottom: 10),
+                              scrollDirection: Axis.horizontal,
+                              child: GestureDetector(
+                                onTap: () {
+                                  sendmail();
+                                },
+                                child: Text(
+                                  abtpgdetails[1],
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.openSans(
+                                    textStyle: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  UrlLauncher.launch(
+                                      "tel://${phonenumbers[index]}");
+                                },
+                                child: Text(
+                                  phonenumbers[index],
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.openSans(
+                                    textStyle: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               );
-                            }),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: abtpgdetails.isEmpty
-                      ? null
-                      : Column(
-                          children: [
-                            Text(
-                              abtpgdetails[4].toString(),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              abtpgdetails[0].toString(),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.openSans(
-                                textStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: SingleChildScrollView(
-                                padding: const EdgeInsets.only(
-                                    left: 10, top: 10, bottom: 10),
-                                scrollDirection: Axis.horizontal,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    sendmail();
-                                  },
-                                  child: Text(
-                                    abtpgdetails[1],
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.openSans(
-                                      textStyle: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    UrlLauncher.launch(
-                                        "tel://${phonenumbers[index]}");
-                                  },
-                                  child: Text(
-                                    phonenumbers[index],
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.openSans(
-                                      textStyle: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              itemCount: phonenumbers.length,
-                            ),
-                          ],
-                        ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(15),
-                  color: Colors.blueGrey[700],
-                  height: MediaQuery.of(context).size.height * 1 / 2 - 50,
-                  width: MediaQuery.of(context).size.width,
-                  child: Stack(
-                    children: [
-                      GoogleMap(
-                        onMapCreated: (controller) =>
-                            _googlecontroller = controller,
-                        markers: _markers,
-                        initialCameraPosition: _initialCameraPosition,
-                        myLocationButtonEnabled: true,
-                        zoomControlsEnabled: true,
-                        gestureRecognizers: Set()
-                          ..add(Factory<PanGestureRecognizer>(
-                              () => PanGestureRecognizer())),
+                            },
+                            itemCount: phonenumbers.length,
+                          ),
+                        ],
                       ),
-                      Container(
-                          alignment: Alignment.topRight,
-                          child: FloatingActionButton(
-                            child: const Icon(
-                              Icons.center_focus_strong,
-                              size: 30,
-                            ),
-                            onPressed: () => _googlecontroller?.animateCamera(
-                                CameraUpdate.newCameraPosition(
-                                    _initialCameraPosition)),
-                            mini: true,
-                          ))
-                    ],
-                  ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(15),
+                color: Colors.blueGrey[700],
+                height: MediaQuery.of(context).size.height * 1 / 2 - 50,
+                width: MediaQuery.of(context).size.width,
+                child: Stack(
+                  children: [
+                    GoogleMap(
+                      onMapCreated: (controller) =>
+                          _googlecontroller = controller,
+                      markers: _markers,
+                      initialCameraPosition: _initialCameraPosition,
+                      myLocationButtonEnabled: true,
+                      zoomControlsEnabled: true,
+                      gestureRecognizers: Set()
+                        ..add(Factory<PanGestureRecognizer>(
+                            () => PanGestureRecognizer())),
+                    ),
+                    Container(
+                        alignment: Alignment.topRight,
+                        child: FloatingActionButton(
+                          onPressed: () => _googlecontroller?.animateCamera(
+                              CameraUpdate.newCameraPosition(
+                                  _initialCameraPosition)),
+                          mini: true,
+                          child: const Icon(
+                            Icons.center_focus_strong,
+                            size: 30,
+                          ),
+                        ))
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -395,5 +389,38 @@ class _AboutPageState extends State<AboutPage> {
     } else {
       //email app is not opened
     }
+  }
+
+  void getabtpgdetails() {
+    abtpgdetails.clear();
+    img.clear();
+    phonenumbers.clear();
+
+    vehicleStream = database.child("AboutPageDetails").once().then((event) {
+      dynamic data = event.snapshot.value;
+
+      abtpgdetails.add(data["Address"]);
+      abtpgdetails.add(data["Mail"]);
+      abtpgdetails.add(data["Phonenumber"]);
+
+      abtpgdetails.add(data["Images"]);
+      abtpgdetails.add(data["Name"]);
+
+      abtpgdetails[3] = abtpgdetails[3].toString().split(","); // split the urls
+
+      abtpgdetails[2] =
+          abtpgdetails[2].toString().split(","); // split the phone numbers
+
+      for (var mx in abtpgdetails[3]) {
+        if (mx == "") continue;
+        img.add(mx);
+      }
+      for (var mx in abtpgdetails[2]) {
+        if (mx == "") continue;
+        phonenumbers.add(mx);
+      }
+
+      setState(() {});
+    });
   }
 }

@@ -3,9 +3,11 @@
 import 'dart:async';
 
 import 'package:new_version_plus/new_version_plus.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 
 import 'aboutPage.dart';
 import 'globalvar.dart';
+import 'noteorder.dart';
 import 'tnc.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -36,16 +38,39 @@ class _MainPageState extends State<Home> {
     categories.clear();
     img.clear();
     //_checkVersion2();
+
     activateListeners(pathxy);
   }
+
+  final searchtext = TextEditingController();
+
+  var focussearchbar = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         if (pathxy == "Home") {
+          if (issearchon) {
+            issearchon = false;
+            setState(() {
+              temp.clear();
+              img.clear();
+
+              for (int i = 0; i < temptempforsearch.length; i++) {
+                temp.add(temptempforsearch[i]);
+                img.add(tempimgforsearch[i]);
+              }
+              temptempforsearch.clear();
+              tempimgforsearch.clear();
+              searchtext.clear();
+              issearchon = false;
+            });
+            return false;
+          }
           return true;
         }
+
         pathxy = pathxy.substring(0, pathxy.lastIndexOf("/"));
         gotolastpage(context);
         return false;
@@ -91,6 +116,7 @@ class _MainPageState extends State<Home> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
                   pgtitle = "Home";
                   pathxy = "Home";
                   Navigator.pushReplacement(
@@ -103,6 +129,27 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
+                visualDensity: VisualDensity(vertical: 0),
+                dense: true,
+                title: Text(
+                  'Order',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  issearchon = false;
+
+                  readalldata();
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => NoteOrder()),
+                  );
+                },
+              ),
+              ListTile(
                 title: const Text(
                   'About Us',
                   style: TextStyle(
@@ -111,6 +158,8 @@ class _MainPageState extends State<Home> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const AboutPage()),
@@ -129,6 +178,8 @@ class _MainPageState extends State<Home> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Tnc()),
@@ -144,6 +195,8 @@ class _MainPageState extends State<Home> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
+                  issearchon = false;
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -154,45 +207,139 @@ class _MainPageState extends State<Home> {
             ],
           ),
         ),
-        appBar: AppBar(
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: landingpg == "yes"
-                  ? null
-                  : MaterialButton(
-                      minWidth: 100,
-                      onPressed: () {
-                        if (mounted) {
-                          setState(() {
-                            isSelected = !isSelected;
-                          });
-                        }
-                      },
-                      child: isSelected
-                          ? const Text(
-                              "Edit is off",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 203, 19, 19),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : const Text(
-                              "Edit is on",
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+        appBar: issearchon && landingpg != "yes"
+            ? AppBar(
+                title: Column(
+                  children: [
+                    Container(
+                      child: Stack(
+                        alignment: Alignment.centerRight,
+                        children: <Widget>[
+                          TextField(
+                            focusNode: focussearchbar,
+                            autofocus: true,
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            controller: searchtext,
+                            cursorColor: Colors.black,
+                            onChanged: (value) {
+                              temp.clear();
+                              img.clear();
+
+                              for (int i = 0;
+                                  i < temptempforsearch.length;
+                                  i++) {
+                                if (value == '') {
+                                  for (int i = 0;
+                                      i < temptempforsearch.length;
+                                      i++) {
+                                    temp.add(temptempforsearch[i]);
+                                    img.add(tempimgforsearch[i]);
+                                  }
+                                  break;
+                                } else {
+                                  if (temptempforsearch[i]
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(
+                                          value.toString().toLowerCase())) {
+                                    temp.add(temptempforsearch[i]);
+                                    img.add(tempimgforsearch[i]);
+                                  }
+                                }
+                              }
+                              setState(() {});
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.close,
                             ),
+                            onPressed: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              setState(() {
+                                temp.clear();
+                                img.clear();
+
+                                for (int i = 0;
+                                    i < temptempforsearch.length;
+                                    i++) {
+                                  temp.add(temptempforsearch[i]);
+                                  img.add(tempimgforsearch[i]);
+                                }
+                                temptempforsearch.clear();
+                                tempimgforsearch.clear();
+                                searchtext.clear();
+                                issearchon = false;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-            ),
-          ],
-          title: Text(
-            pgtitle,
-            style: const TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
+                  ],
+                ),
+              )
+            : AppBar(
+                actions: <Widget>[
+                  if (landingpg != "yes")
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                      ),
+                      onPressed: () {
+                        // do something
+                        issearchon = true;
+                        tempimgforsearch.clear();
+                        temptempforsearch.clear();
+
+                        for (int i = 0; i < temp.length; i++) {
+                          temptempforsearch.add(temp[i]);
+                          tempimgforsearch.add(img[i]);
+                        }
+                        setState(() {});
+                        focussearchbar.requestFocus();
+                      },
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: landingpg == "yes"
+                        ? null
+                        : MaterialButton(
+                            minWidth: 100,
+                            onPressed: () {
+                              if (mounted) {
+                                setState(() {
+                                  isSelected = !isSelected;
+                                });
+                              }
+                            },
+                            child: isSelected
+                                ? const Text(
+                                    "Edit is off",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 203, 19, 19),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : const Text(
+                                    "Edit is on",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                          ),
+                  ),
+                ],
+                title: Text(
+                  pgtitle,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
         body: categories.isEmpty
             ? const Align(
                 alignment: Alignment.center,
@@ -241,7 +388,6 @@ class _MainPageState extends State<Home> {
       if (landingpg == "yes") {
         temp.add(event.snapshot.value);
       } else {
-        
         data.forEach((k, v) async {
           if (k != "lp" &&
               k != "desc" &&
@@ -301,7 +447,7 @@ class _MainPageState extends State<Home> {
               img[i + 1] = img[i];
               img[i] = imgtr;
             }
-          } 
+          }
         } while ((isSwapped));
       }
       setState(() {

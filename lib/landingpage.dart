@@ -5,8 +5,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:sbe/pdfview.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:intl/intl.dart';
 
 import 'mainpage.dart';
+import 'noteorder.dart';
 import 'showFullImage.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -113,8 +115,7 @@ class _LandingPageState extends State<LandingPage> {
                               borderRadius: BorderRadius.circular(10.0),
                               image: DecorationImage(
                                 fit: BoxFit.fitHeight,
-                                image:
-                                    NetworkImage(img[index]),
+                                image: NetworkImage(img[index]),
                               ),
                             ),
                           ),
@@ -159,6 +160,31 @@ class _LandingPageState extends State<LandingPage> {
                             ]),
                             onPressed: () => {getFirebaseImageFolder()}),
                       ),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(140, double.infinity),
+                        // put the width and height you want
+                      ),
+                      child: Wrap(children: const <Widget>[
+                        //place Icon here
+
+                        Text(
+                          "Note Order",
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                      onPressed: () {
+                        readalldata();
+
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NoteOrder()));
+                      }),
+                ),
                 Container(
                   child: desc == ""
                       ? null
@@ -258,19 +284,31 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   uploadpdffiles() async {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('kk:mm:ss EEE d MMM y')
+        .format(now)
+        .toString()
+        .replaceAll(":", "")
+        .replaceAll(" ", "");
+
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
     if (result == null) {
-      var storageRef = FirebaseStorage.instance
-          .ref()
-          .child("PDF/$pathxy/${sd.toString().replaceAll("/", "")}1");
-      pdfurl = await storageRef.getDownloadURL();
+      vehicleStream = database.child(pathxy).once().then((event) {
+        dynamic data = event.snapshot.value;
 
-      FirebaseStorage.instance.refFromURL(pdfurl).delete();
-      database.child(pathxy).update({"pdf": null});
+        print(data["pdf"]);
+        pdfurl = data["pdf"] ? data["pdf"] : "";
+      });
+
+      if (pdfurl != "") {
+        pdfurl = FirebaseStorage.instance.refFromURL(pdfurl).delete();
+        database.child(pathxy).update({"pdf": null});
+      }
+
       pgtitle = "Home";
       pathxy = "Home";
       Navigator.pushReplacement(
@@ -290,7 +328,8 @@ class _LandingPageState extends State<LandingPage> {
         "pdf") {
       var file = File(sd);
 
-      final ref = FirebaseStorage.instance.ref().child("PDF/$pathxy/1");
+      final ref =
+          FirebaseStorage.instance.ref().child("PDF/$pathxy/$formattedDate");
 
       ref.putFile(file).then((TaskSnapshot taskSnapshot) async {
         if (taskSnapshot.state == TaskState.success) {
@@ -360,5 +399,4 @@ class _LandingPageState extends State<LandingPage> {
       setState(() {});
     }
   }
-
 }

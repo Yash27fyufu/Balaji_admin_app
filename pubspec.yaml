@@ -57,6 +57,12 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   flutter_cached_pdfview: ^0.4.1
   new_version_plus: ^0.0.3
+  shared_preferences: ^2.1.0
+  pdf: ^3.8.4
+  share_plus: ^6.3.2
+  responsive_flutter: ^0.0.4
+  permission_handler: ^10.2.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

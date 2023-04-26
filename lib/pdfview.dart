@@ -93,6 +93,7 @@ class _PDFViewpageState extends State<PDFViewpage> {
 
   downloadfile() async {
     //check for permission
+<<<<<<< HEAD
     var status = await Permission.storage.status;
 
     if (status.isDenied) {
@@ -142,6 +143,61 @@ class _PDFViewpageState extends State<PDFViewpage> {
       }
     }
 
+=======
+    try {
+      var status = await Permission.storage.status;
+
+      if (status.isDenied) {
+        // You can request multiple permissions at once.
+        Map<Permission, PermissionStatus> statuses = await [
+          Permission.storage,
+        ].request();
+      }
+      status = await Permission.storage.status;
+      if (status.isDenied) {
+        return;
+      }
+
+      setState(() {
+        isloadin = true;
+      });
+      if (!await Directory('storage/emulated/0/Download/SBE').exists()) {
+        await Directory('storage/emulated/0/Download/SBE').create();
+      }
+
+      if (!await Directory('storage/emulated/0/Download/SBE/$asd').exists()) {
+        await Directory('storage/emulated/0/Download/SBE/$asd').create();
+        savethepdfindevice(asd);
+      } else {
+        setState(() {
+          isloadin = false;
+        });
+
+        var filesinfolder = "";
+        var filenameindevice = "";
+        if (await Directory('storage/emulated/0/Download/SBE/$asd')
+            .listSync(recursive: true, followLinks: false)
+            .isNotEmpty) {
+          filesinfolder =
+              await Directory('storage/emulated/0/Download/SBE/$asd')
+                  .listSync(recursive: true, followLinks: false)[0]
+                  .toString();
+          filenameindevice = filesinfolder.substring(
+              filesinfolder.lastIndexOf("/") + 1, filesinfolder.length - 5);
+        }
+
+        if (filenameindevice.toString() == "") {
+          savethepdfindevice(asd);
+        } else if (filenameindevice != filenameinurl) {
+          deleteFile(File(
+              filesinfolder.toString().substring(7, filesinfolder.length - 1)));
+          savethepdfindevice(asd);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
     //deleteFile(File('/storage/emulated/0/Download/sdff.pdf'));
   }
 

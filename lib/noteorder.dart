@@ -6,9 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+<<<<<<< HEAD
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:pdf/pdf.dart';
+=======
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:pdf/pdf.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
 import 'package:shared_preferences/shared_preferences.dart';
 import 'aboutPage.dart';
 import 'package:path_provider/path_provider.dart';
@@ -80,7 +88,12 @@ class _NoteOrderState extends State<NoteOrder> {
                           style: GoogleFonts.openSans(
                             textStyle: TextStyle(
                               color: Colors.black,
+<<<<<<< HEAD
                               fontSize: 18,
+=======
+                              fontSize:
+                                  ResponsiveFlutter.of(context).fontSize(2.5),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -96,7 +109,11 @@ class _NoteOrderState extends State<NoteOrder> {
                     'Home',
                     style: TextStyle(
                         color: Colors.black,
+<<<<<<< HEAD
                         fontSize: 20,
+=======
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -119,7 +136,11 @@ class _NoteOrderState extends State<NoteOrder> {
                     'Order',
                     style: TextStyle(
                         color: Colors.black,
+<<<<<<< HEAD
                         fontSize: 20,
+=======
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -139,7 +160,11 @@ class _NoteOrderState extends State<NoteOrder> {
                     'About Us',
                     style: TextStyle(
                         color: Colors.black,
+<<<<<<< HEAD
                         fontSize: 20,
+=======
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -160,7 +185,11 @@ class _NoteOrderState extends State<NoteOrder> {
                     "Terms of Use",
                     style: TextStyle(
                         color: Colors.black,
+<<<<<<< HEAD
                         fontSize: 20,
+=======
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -177,7 +206,11 @@ class _NoteOrderState extends State<NoteOrder> {
                     "Contact Developer",
                     style: TextStyle(
                         color: Colors.black,
+<<<<<<< HEAD
                         fontSize: 20,
+=======
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -524,7 +557,11 @@ class _NoteOrderState extends State<NoteOrder> {
                         child: pw.Text(
                           "Page:${i + 1}",
                           style: pw.TextStyle(
+<<<<<<< HEAD
                             fontSize: 20,
+=======
+                            fontSize: 15,
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                           ),
                         )),
                   ])),

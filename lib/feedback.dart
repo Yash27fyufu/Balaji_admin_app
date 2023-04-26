@@ -6,9 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+<<<<<<< HEAD
 import 'package:permission_handler/permission_handler.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
+=======
+
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:responsive_flutter/responsive_flutter.dart';
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:url_launcher/url_launcher.dart';
 import 'aboutPage.dart';
@@ -64,7 +70,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           style: GoogleFonts.openSans(
                             textStyle: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize:
+                                  ResponsiveFlutter.of(context).fontSize(2.5),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -80,7 +87,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     'Home',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -102,7 +109,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     'Order',
                     style: TextStyle(
                         color: Colors.black,
+<<<<<<< HEAD
                         fontSize: 20,
+=======
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -121,7 +132,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     'About Us',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -142,7 +153,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     "Terms of Use",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -160,7 +171,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     "Contact Developer",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
+                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -253,7 +264,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               ),
                               ElevatedButton(
                                   onPressed: () {
+<<<<<<< HEAD
                                     deletsbefolder();
+=======
+                                    deletsbefolder(context);
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                                   },
                                   child: Text("Clear PDF Data")),
                               const SizedBox(
@@ -345,7 +360,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
         ));
   }
 
+<<<<<<< HEAD
   deletsbefolder() async {
+=======
+  deletsbefolder(context) async {
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
     showDialog(
         context: context,
         builder: (context) {
@@ -356,6 +375,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
             actions: [
               RawMaterialButton(
                 onPressed: () {
+<<<<<<< HEAD
+=======
+                  print("hiiiiii");
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => FeedbackPage()),
@@ -369,6 +392,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       setState(() {
                         deletingdata = true;
                       });
+<<<<<<< HEAD
 
                       var status = await Permission.storage.status;
 
@@ -389,6 +413,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         return;
                       }
 
+=======
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                       var dirPath = '/storage/emulated/0/Download/SBE';
                       final dir = Directory(dirPath);
 
@@ -396,20 +422,31 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         dir.deleteSync(recursive: true);
                       }
 
+<<<<<<< HEAD
                       var snackBar = const SnackBar(
+=======
+                      var snackBar = SnackBar(
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                         content: Text("All data cleared"),
                         duration: Duration(milliseconds: 500),
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } catch (error) {
+<<<<<<< HEAD
                       print(error);
+=======
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                       setState(() {
                         deletingdata = false;
                       });
                       var snackBar = SnackBar(
                         content: Text(error.toString()),
+<<<<<<< HEAD
                         duration: Duration(milliseconds: 1500),
+=======
+                        duration: Duration(milliseconds: 500),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);

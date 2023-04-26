@@ -3,12 +3,6 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
-import 'package:intl/intl.dart';
-
-import 'mainpage.dart';
-import 'noteorder.dart';
-import 'pdfview.dart';
 import 'showFullImage.dart';
 import 'package:file_picker/file_picker.dart';
 

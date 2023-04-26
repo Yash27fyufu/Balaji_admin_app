@@ -5,7 +5,10 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   permission_handler_windows
   share_plus
+<<<<<<< HEAD
   syncfusion_pdfviewer_windows
+=======
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
   url_launcher_windows
 )
 

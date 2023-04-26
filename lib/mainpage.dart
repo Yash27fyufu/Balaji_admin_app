@@ -3,6 +3,10 @@
 import 'dart:async';
 
 import 'package:new_version_plus/new_version_plus.dart';
+<<<<<<< HEAD
+=======
+import 'package:responsive_flutter/responsive_flutter.dart';
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
 
 import 'aboutPage.dart';
 import 'globalvar.dart';
@@ -134,7 +138,11 @@ class _MainPageState extends State<Home> {
                   'Order',
                   style: TextStyle(
                       color: Colors.black,
+<<<<<<< HEAD
                       fontSize: 20,
+=======
+                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+>>>>>>> 45823a0ee6fed4e8e47523240f959a60c4350396
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {

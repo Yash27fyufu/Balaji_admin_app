@@ -7,18 +7,21 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sbe/feedback.dart';
-import 'package:sbe/tnc.dart';
+import 'feedback.dart';
+import 'tnc.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'mainpage.dart';
 
+var temppdf;
 var tempgstnum = "",
     tempaddress = "",
     templorry = "",
     tempshopame = "",
     tempphonenum = "",
     temporder = "";
+
+String filepath = "";
 
 var issearchon = false;
 final formkey = GlobalKey<FormState>();

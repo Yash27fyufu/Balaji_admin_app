@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, deprecated_member_use, unnecessary_null_comparison, annotate_overrides, avoid_print
-
 import 'dart:io';
 import 'dart:async';
 
@@ -25,6 +23,8 @@ class _UpdateDetailsState extends State<UpdateDetails> {
   List<String> files = [];
 
   void initState() {
+    print("dsssssssssssssssssssssssss");
+    print(temp);
     if (temp[0] == "yes") {
       toenable = true;
       updatepriceController.text = temp[4].toString();
@@ -244,8 +244,8 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                       maxLines: null,
                       controller: updatedescriptionController,
                       decoration: const InputDecoration(
-                          label: Text(
-                              "Description"), // enable multi line text as input
+                          label:
+                              Text("Description"), // enable multi line text as input
                           border: OutlineInputBorder()),
                     ),
                     const SizedBox(
@@ -281,7 +281,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
     pp = updatecategoriesController.text.toString().trim().toString();
 
     if (pp.toString().isEmpty) {
-      const snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Enter category name first'),
         duration: Duration(milliseconds: 500),
       );
@@ -341,7 +341,7 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
   void updatedata() async {
     if (alreadyimgcount + files.length != pickedimgList.length) {
-      const snackBar = SnackBar(
+      final snackBar = const SnackBar(
         content: Text('Wait for images to upload'),
         duration: Duration(milliseconds: 500),
       );
@@ -353,9 +353,8 @@ class _UpdateDetailsState extends State<UpdateDetails> {
     temp[2].removeWhere((element) => pickedimgList.contains(element));
 
     for (var d in temp[2]) {
-      if (d.toString().startsWith("http")) {
+      if (d.toString().startsWith("http"))
         FirebaseStorage.instance.refFromURL(d.toString().trim()).delete();
-      }
     }
 
 //above part filters the images which were deselected and delete from the storage
@@ -377,11 +376,11 @@ class _UpdateDetailsState extends State<UpdateDetails> {
           : updatepriceController.text.toString().trim()
     });
 
-    vehicleStream = database.child(pathxy).once().then((event) {
+    vehicleStream = database.child(pathxy).onValue.listen((event) {
       datax = event.snapshot.value;
-      if (datax != null) {
+      if (datax != null)
         database.child(newadd).set(datax);
-      } else {
+      else {
         return null;
       }
     });
@@ -410,7 +409,6 @@ class _UpdateDetailsState extends State<UpdateDetails> {
 
     pgtitle = "Home";
 
-    // ignore: unnecessary_new
     var _timer = new Timer(const Duration(milliseconds: 1000), () {
       Navigator.pushReplacement(
         context,

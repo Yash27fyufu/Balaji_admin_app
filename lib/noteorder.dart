@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:pdf/pdf.dart';
-import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'aboutPage.dart';
 import 'package:path_provider/path_provider.dart';
@@ -82,8 +80,7 @@ class _NoteOrderState extends State<NoteOrder> {
                           style: GoogleFonts.openSans(
                             textStyle: TextStyle(
                               color: Colors.black,
-                              fontSize:
-                                  ResponsiveFlutter.of(context).fontSize(2.5),
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -99,7 +96,7 @@ class _NoteOrderState extends State<NoteOrder> {
                     'Home',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -122,7 +119,7 @@ class _NoteOrderState extends State<NoteOrder> {
                     'Order',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -142,7 +139,7 @@ class _NoteOrderState extends State<NoteOrder> {
                     'About Us',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -163,7 +160,7 @@ class _NoteOrderState extends State<NoteOrder> {
                     "Terms of Use",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -180,7 +177,7 @@ class _NoteOrderState extends State<NoteOrder> {
                     "Contact Developer",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -527,7 +524,7 @@ class _NoteOrderState extends State<NoteOrder> {
                         child: pw.Text(
                           "Page:${i + 1}",
                           style: pw.TextStyle(
-                            fontSize: 15,
+                            fontSize: 20,
                           ),
                         )),
                   ])),

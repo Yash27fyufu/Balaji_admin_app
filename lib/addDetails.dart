@@ -1,19 +1,22 @@
-// ignore_for_file: deprecated_member_use, file_names, no_leading_underscores_for_local_identifiers, unnecessary_string_escapes, prefer_interpolation_to_compose_strings, unnecessary_null_comparison
+// ignore_for_file: deprecated_member_use, file_names
 
 import 'dart:async';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+// ignore: import_of_legacy_library_into_null_safe
 
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:image_picker/image_picker.dart';
 
 import 'globalvar.dart';
 
 class AddDetails extends StatefulWidget {
-  const AddDetails({Key? key}) : super(key: key);
+  AddDetails({Key? key}) : super(key: key);
 
   @override
   State<AddDetails> createState() => _AddDetailsState();
@@ -49,9 +52,9 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    final isremovedFromBg = state == AppLifecycleState.detached;
+    final isremoved_from_bg = state == AppLifecycleState.detached;
 
-    if (isremovedFromBg) {
+    if (isremoved_from_bg) {
       for (var df in files) {
         FirebaseStorage.instance.refFromURL(df).delete();
       }
@@ -130,7 +133,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
                   //       ]),
                   //       onPressed: () => {uploadpdffiles()}),
                   // ),
-
+                 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -336,7 +339,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
 
       final ref = FirebaseStorage.instance
           .ref()
-          .child("${"$pathxy/" + pp}/${image.path.replaceAll("/", "")}");
+          .child("${pathxy + "/" + pp}/${image.path.replaceAll("/", "")}");
 
       ref.putFile(file).then((TaskSnapshot taskSnapshot) {
         if (taskSnapshot.state == TaskState.success) {
@@ -353,9 +356,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       });
 
       // setState(() => pickedimgList.add(file));
-    } on PlatformException catch (e) {
-      return e;
-    }
+    } on PlatformException catch (e) {}
   }
 
   Future<void> insertData() async {
@@ -366,7 +367,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
+      return null;
     }
 
     if (categories.contains(categoriesController.text)) {
@@ -376,7 +377,7 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
+      return null;
     }
 
     if (pickedimgList.length == files.length) {
@@ -417,4 +418,6 @@ class _AddDetailsState extends State<AddDetails> with WidgetsBindingObserver {
   }
 
   String sd = "";
+
+ 
 }

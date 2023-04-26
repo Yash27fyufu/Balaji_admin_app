@@ -1,5 +1,3 @@
-import 'package:responsive_flutter/responsive_flutter.dart';
-
 import 'feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,8 +46,7 @@ class Tnc extends StatelessWidget {
                             style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                 color: Colors.black,
-                                fontSize:
-                                    ResponsiveFlutter.of(context).fontSize(2.5),
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -65,7 +62,7 @@ class Tnc extends StatelessWidget {
                       'Home',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                          fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
@@ -87,7 +84,7 @@ class Tnc extends StatelessWidget {
                       'Order',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                          fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
@@ -106,7 +103,7 @@ class Tnc extends StatelessWidget {
                       'About Us',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                          fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
@@ -128,7 +125,7 @@ class Tnc extends StatelessWidget {
                       "Terms of Use",
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                          fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
@@ -145,7 +142,7 @@ class Tnc extends StatelessWidget {
                       "Contact Developer",
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                          fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                     onTap: () {

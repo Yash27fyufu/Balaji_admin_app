@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:url_launcher/url_launcher.dart';
 import 'aboutPage.dart';
@@ -64,8 +64,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           style: GoogleFonts.openSans(
                             textStyle: TextStyle(
                               color: Colors.black,
-                              fontSize:
-                                  ResponsiveFlutter.of(context).fontSize(2.5),
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -81,7 +80,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     'Home',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -103,7 +102,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     'Order',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -122,7 +121,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     'About Us',
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -143,7 +142,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     "Terms of Use",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -161,7 +160,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     "Contact Developer",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                   onTap: () {
@@ -254,7 +253,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               ),
                               ElevatedButton(
                                   onPressed: () {
-                                    deletsbefolder(context);
+                                    deletsbefolder();
                                   },
                                   child: Text("Clear PDF Data")),
                               const SizedBox(
@@ -346,7 +345,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         ));
   }
 
-  deletsbefolder(context) async {
+  deletsbefolder() async {
     showDialog(
         context: context,
         builder: (context) {
@@ -357,7 +356,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
             actions: [
               RawMaterialButton(
                 onPressed: () {
-                  print("hiiiiii");
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => FeedbackPage()),
@@ -371,6 +369,26 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       setState(() {
                         deletingdata = true;
                       });
+
+                      var status = await Permission.storage.status;
+
+                      if (status.isDenied) {
+                        // You can request multiple permissions at once.
+                        Map<Permission, PermissionStatus> statuses = await [
+                          Permission.storage,
+                        ].request();
+                      }
+                      status = await Permission.storage.status;
+                      if (status.isDenied) {
+                        var snackBar = const SnackBar(
+                          content: Text("Please provide permission to proceed"),
+                          duration: Duration(milliseconds: 500),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        return;
+                      }
+
                       var dirPath = '/storage/emulated/0/Download/SBE';
                       final dir = Directory(dirPath);
 
@@ -378,19 +396,20 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         dir.deleteSync(recursive: true);
                       }
 
-                      var snackBar = SnackBar(
+                      var snackBar = const SnackBar(
                         content: Text("All data cleared"),
                         duration: Duration(milliseconds: 500),
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } catch (error) {
+                      print(error);
                       setState(() {
                         deletingdata = false;
                       });
                       var snackBar = SnackBar(
                         content: Text(error.toString()),
-                        duration: Duration(milliseconds: 500),
+                        duration: Duration(milliseconds: 1500),
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);

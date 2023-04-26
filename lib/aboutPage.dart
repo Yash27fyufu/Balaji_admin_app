@@ -3,7 +3,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'feedback.dart';
 import 'globalvar.dart';
@@ -88,8 +87,7 @@ class _AboutPageState extends State<AboutPage> {
                         style: GoogleFonts.openSans(
                           textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize:
-                                ResponsiveFlutter.of(context).fontSize(2.5),
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -105,7 +103,7 @@ class _AboutPageState extends State<AboutPage> {
                   'Home',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -127,7 +125,7 @@ class _AboutPageState extends State<AboutPage> {
                   'Order',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -147,7 +145,7 @@ class _AboutPageState extends State<AboutPage> {
                   'About Us',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -167,7 +165,7 @@ class _AboutPageState extends State<AboutPage> {
                   "Terms of Use",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -184,7 +182,7 @@ class _AboutPageState extends State<AboutPage> {
                   "Contact Developer",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {

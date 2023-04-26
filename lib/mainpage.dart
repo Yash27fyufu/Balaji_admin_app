@@ -1,26 +1,22 @@
-// ignore_for_file: depend_on_referenced_packages, prefer_const_constructors, prefer_contains, prefer_typing_uninitialized_variables, await_only_futures, avoid_unnecessary_containers, deprecated_member_use, unnecessary_import
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:new_version_plus/new_version_plus.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:responsive_flutter/responsive_flutter.dart';
-import 'package:sbe/noteorder.dart';
 
 import 'aboutPage.dart';
 import 'globalvar.dart';
+import 'noteorder.dart';
 import 'tnc.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'addDetails.dart';
 import 'feedback.dart';
 import 'gridwidget.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import 'landingpage.dart';
-import 'updateappdialog.dart';
 
 // ignore: must_be_immutable
 class Home extends StatefulWidget {
@@ -35,16 +31,19 @@ class Home extends StatefulWidget {
 class _MainPageState extends State<Home> {
   final database = FirebaseDatabase.instance.reference();
   bool isSelected = true;
-  final searchtext = TextEditingController();
-
-  var focussearchbar = FocusNode();
-
   @override
   void initState() {
     super.initState();
-    _checkVersion2();
+    categories.clear();
+    img.clear();
+    //_checkVersion2();
+
     activateListeners(pathxy);
   }
+
+  final searchtext = TextEditingController();
+
+  var focussearchbar = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -95,10 +94,9 @@ class _MainPageState extends State<Home> {
                         'SHRI BALAJI ENTERPRISES',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.black,
-                            fontSize:
-                                ResponsiveFlutter.of(context).fontSize(2.5),
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -108,14 +106,12 @@ class _MainPageState extends State<Home> {
                 ),
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
-                dense: true,
                 tileColor: Colors.grey[350],
-                title: Text(
+                title: const Text(
                   'Home',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -138,7 +134,7 @@ class _MainPageState extends State<Home> {
                   'Order',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -153,13 +149,11 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
-                dense: true,
-                title: Text(
+                title: const Text(
                   'About Us',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -175,13 +169,11 @@ class _MainPageState extends State<Home> {
                 height: MediaQuery.of(context).size.height - 350,
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
-                dense: true,
-                title: Text(
+                title: const Text(
                   "Terms of Use",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -194,13 +186,11 @@ class _MainPageState extends State<Home> {
                 },
               ),
               ListTile(
-                visualDensity: VisualDensity(vertical: 0),
-                dense: true,
-                title: Text(
+                title: const Text(
                   "Contact Developer",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: ResponsiveFlutter.of(context).fontSize(2.7),
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
@@ -310,6 +300,36 @@ class _MainPageState extends State<Home> {
                         focussearchbar.requestFocus();
                       },
                     ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: landingpg == "yes"
+                        ? null
+                        : MaterialButton(
+                            minWidth: 100,
+                            onPressed: () {
+                              if (mounted) {
+                                setState(() {
+                                  isSelected = !isSelected;
+                                });
+                              }
+                            },
+                            child: isSelected
+                                ? const Text(
+                                    "Edit is off",
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 203, 19, 19),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : const Text(
+                                    "Edit is on",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                          ),
+                  ),
                 ],
                 title: Text(
                   pgtitle,
@@ -329,16 +349,24 @@ class _MainPageState extends State<Home> {
               )
             : landingpg == "yes"
                 ? LandingPage()
-                : PageStorage(
-                    bucket: globalBucket,
-                    key: const PageStorageKey(0),
-                    child: GridWidget(
-                      length: temp.length,
-                      text: temp,
-                      acti: activateListeners,
-                      isSelected: isSelected,
-                    ),
+                : GridWidget(
+                    length: temp.length,
+                    text: temp,
+                    acti: activateListeners,
+                    isSelected: isSelected,
                   ),
+        floatingActionButton: landingpg == "yes"
+            ? null
+            : FloatingActionButton(
+                child: const Icon(Icons.add),
+                onPressed: () {
+                  pickedimgList.clear();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddDetails()),
+                  );
+                },
+              ),
       ),
     );
   }
@@ -349,10 +377,7 @@ class _MainPageState extends State<Home> {
   }
 
   Future<void> activateListeners(String x) async {
-    categories.clear();
-    img.clear();
-
-    vehicleStream = database.child(x).once().then((event) async {
+    vehicleStream = database.child(x).onValue.listen((event) async {
       dynamic data = event.snapshot.value;
 
       temp = [];
@@ -371,7 +396,9 @@ class _MainPageState extends State<Home> {
             if (k != "images") {
               temp.add(k);
             }
-            if (event.snapshot.child(k).child("images").value == "[]") {
+            if ((event.snapshot.child(k).child("images").value == "[]")) {
+              var gf = event.snapshot.child(k).key;
+              print(gf);
               img.add(noimglink);
             } else {
               img.add(event.snapshot
@@ -404,6 +431,7 @@ class _MainPageState extends State<Home> {
             }
           }
         });
+
         bool isSwapped = false;
         do {
           isSwapped = false;
@@ -425,46 +453,44 @@ class _MainPageState extends State<Home> {
         img = img;
         categories = temp;
       });
-
-      setState(() {});
     });
   }
 
-  void _checkVersion2() async {
+  void _checkVersion2() {
     final newVersion = NewVersionPlus(
-      iOSId: 'com.latest.sbe.catalogue',
-      androidId: 'com.latest.sbe.catalogue',
+      iOSId: 'com.sbe.catalogue',
+      androidId: 'com.sbe.catalogue',
     );
 
+    // You can let the plugin handle fetching the status and showing a dialog,
+    // or you can fetch the status and display your own dialog, or no dialog.
+    const simpleBehavior = true;
+
+    if (simpleBehavior) {
+      basicStatusCheck(newVersion);
+    }
+  }
+
+  basicStatusCheck(NewVersionPlus newVersion) {
+    newVersion.showAlertIfNecessary(context: context);
+  }
+
+  advancedStatusCheck(NewVersionPlus newVersion) async {
     final status = await newVersion.getVersionStatus();
-
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    var onlinepackageinfo;
-
-    vehicleStream = database.child("UpdateDetails").once().then((event) {
-      dynamic data = event.snapshot.value;
-      onlinepackageinfo = data["Packageversion"].toString();
-
-      if (status!.canUpdate ||
-          packageInfo.version.compareTo(onlinepackageinfo) == -1) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return UpdateDialog(
-              allowDismissal: true,
-              description: status.releaseNotes!,
-              version: status.storeVersion,
-              appLink: status.appStoreLink,
-            );
-          },
-        );
-      }
-    });
+    print(status);
+    if (status != null) {
+      print(status.releaseNotes);
+      print(status.appStoreLink);
+      print(status.localVersion);
+      print(status.storeVersion);
+      print(status.canUpdate.toString());
+      newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status,
+      );
+    }
   }
 }
-
-
 
 //shribalajienterprises2006@gmail.com
 //address old no.3 new no.5

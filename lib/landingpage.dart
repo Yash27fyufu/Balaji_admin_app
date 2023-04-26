@@ -1,21 +1,21 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, deprecated_member_use
-
 import 'dart:io';
 
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:sbe/pdfview.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:intl/intl.dart';
+
 import 'mainpage.dart';
 import 'noteorder.dart';
+import 'pdfview.dart';
 import 'showFullImage.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'globalvar.dart';
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  LandingPage({Key? key}) : super(key: key);
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -31,10 +31,11 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-    getabtpgdetails();
+    img.clear();
 
     pdfflag = false;
     check_for_pdf();
+    getabtpgdetails();
 
     {
       categories[0]["images"] = categories[0]["images"].toString().substring(
@@ -46,13 +47,13 @@ class _LandingPageState extends State<LandingPage> {
           categories[0]["images"].toString().split(","); // split the urls
 
       // assign the values
-      img.clear();
+
       for (var mx in categories[0]["images"]) {
         if (mx == "") continue;
         img.add(mx.toString().trim());
       }
     }
-    if (img.isEmpty) {
+    if (img.length == 0) {
       img.add(noimglink);
     }
     controller = TransformationController();
@@ -121,11 +122,29 @@ class _LandingPageState extends State<LandingPage> {
                         );
                       }),
                 ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(140, double.infinity),
+                        // put the width and height you want
+                      ),
+                      child: Wrap(children: const <Widget>[
+                        //place Icon here
+
+                        Text(
+                          "Upload PDF",
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                      onPressed: () => {uploadpdffiles()}),
+                ),
                 !pdfflag
-                    ? const SizedBox()
+                    ? SizedBox()
                     : Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        padding: EdgeInsets.only(left: 20, right: 20),
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               fixedSize: const Size(140, double.infinity),
@@ -265,19 +284,31 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   uploadpdffiles() async {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('kk:mm:ss EEE d MMM y')
+        .format(now)
+        .toString()
+        .replaceAll(":", "")
+        .replaceAll(" ", "");
+
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
     if (result == null) {
-      var storageRef = FirebaseStorage.instance
-          .ref()
-          .child("PDF/$pathxy/${sd.toString().replaceAll("/", "")}1");
-      pdfurl = await storageRef.getDownloadURL();
+      vehicleStream = database.child(pathxy).once().then((event) {
+        dynamic data = event.snapshot.value;
 
-      FirebaseStorage.instance.refFromURL(pdfurl).delete();
-      database.child(pathxy).update({"pdf": null});
+        print(data["pdf"]);
+        pdfurl = data["pdf"] ? data["pdf"] : "";
+      });
+
+      if (pdfurl != "") {
+        pdfurl = FirebaseStorage.instance.refFromURL(pdfurl).delete();
+        database.child(pathxy).update({"pdf": null});
+      }
+
       pgtitle = "Home";
       pathxy = "Home";
       Navigator.pushReplacement(
@@ -297,7 +328,8 @@ class _LandingPageState extends State<LandingPage> {
         "pdf") {
       var file = File(sd);
 
-      final ref = FirebaseStorage.instance.ref().child("PDF/$pathxy/1");
+      final ref =
+          FirebaseStorage.instance.ref().child("PDF/$pathxy/$formattedDate");
 
       ref.putFile(file).then((TaskSnapshot taskSnapshot) async {
         if (taskSnapshot.state == TaskState.success) {
@@ -345,8 +377,9 @@ class _LandingPageState extends State<LandingPage> {
 
   void check_for_pdf() async {
     try {
-      vehicleStream = database.child(pathxy).once().then((event) async {
-        pdfurl = event.snapshot.child("pdf").value;
+      vehicleStream = database.child(pathxy).onValue.listen((event) async {
+        dynamic data = event.snapshot.value;
+        pdfurl = await event.snapshot.child("pdf").value;
 
         if (pdfurl != null) {
           pdfflag = true;

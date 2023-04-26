@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable, unnecessary_new, no_leading_underscores_for_local_identifiers, prefer_interpolation_to_compose_strings, file_names
-
 import 'dart:async';
 
 import 'globalvar.dart';
@@ -24,7 +22,6 @@ class GridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      key: const PageStorageKey(5),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 1,
@@ -33,9 +30,7 @@ class GridWidget extends StatelessWidget {
       itemCount: length,
       itemBuilder: (context, idx) {
         return InkWell(
-          onLongPress: () {},
           onTap: () {
-            issearchon = false;
             pgtitle = categories[idx];
 
             pathxy += "/" + categories[idx];
@@ -89,6 +84,48 @@ class GridWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+                      IconButton(
+                        iconSize: 22,
+                        icon: const Icon(Icons.delete),
+                        color: Colors.red,
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Delete ${text[idx]}"),
+                                  content: const Text(
+                                      "Are you sure you want to delete?"),
+                                  actions: [
+                                    RawMaterialButton(
+                                      onPressed: () {
+                                        gotolastpage(context);
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                    RawMaterialButton(
+                                        onPressed: () {
+                                          database
+                                              .child(pathxy)
+                                              .child(text[idx])
+                                              .remove()
+                                              .whenComplete(() {
+                                            gotolastpage(context);
+                                          });
+                                          final snackBar = SnackBar(
+                                            content:
+                                                Text('Deleted ${text[idx]}'),
+                                          );
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        },
+                                        child: const Text("Yes "))
+                                  ],
+                                );
+                              });
+                        },
+                      ),
                     ],
                   ),
                 )
@@ -118,6 +155,8 @@ class GridWidget extends StatelessWidget {
         temp.add(data["images"]);
       }
     });
+
+    print(temp);
 
     var _timer = new Timer(const Duration(milliseconds: 800), () {
       temp[2] = temp[2].toString().substring(
